@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\CycleController;
 use App\Http\Controllers\SubjectController;
@@ -15,13 +16,17 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AttemptController;
 use App\Http\Controllers\SubscriptionController;
-use Illuminate\Support\Facades\Route;
 
-/*** Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum'); ***/
+Route::prefix('auth')->group(function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::get('user', [AuthController::class, 'user']);
+    });
+});
 
-Route::middleware(['api'])->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('schools', SchoolController::class);
     Route::apiResource('cycles', CycleController::class);
     Route::apiResource('subjects', SubjectController::class);
