@@ -44,7 +44,7 @@
 <body>
 
     <div class="hero-section">
-        <a href="{{ # }}" class="hero-button">Accéder au Dashboard</a>
+        <a href="{{route('frontend.admin-dashboard')}}" class="hero-button">Accéder au Dashboard</a>
     </div>
 
 </body>
