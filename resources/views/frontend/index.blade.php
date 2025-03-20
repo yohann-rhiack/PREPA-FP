@@ -13,7 +13,7 @@
         }
 
         .hero-section {
-            background: url('{{ asset('frontend/dist/img/quiz_background.jpeg') }}') no-repeat center center;
+            background: url("{{ asset('frontend/dist/img/quiz_background.jpeg') }}") no-repeat center center;
             background-size: cover;
             height: 100vh;
             width: 100vw;
