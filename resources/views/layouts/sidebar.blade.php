@@ -69,7 +69,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{ route('frontend.ecole')}}" class="nav-link">
                 <i class="nav-icon fas fa-school"></i>
                 <p>
                   Ecole
@@ -85,7 +85,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{ route('frontend.reponse')}}" class="nav-link">
                 <i class="nav-icon fas fa-reply"></i>
                 <p>
                   Réponses
@@ -93,7 +93,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{ route('frontend.tentative')}}"" class="nav-link">
                 <i class="nav-icon fas fa-hourglass-start"></i>
                 <p>
                   Tentatives
@@ -101,7 +101,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{ route('frontend.chapitre')}}" class="nav-link">
                 <i class="nav-icon fas fa-book"></i>
                 <p>
                   Chapitres
@@ -109,7 +109,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{ route('frontend.cours')}}" class="nav-link">
                 <i class="nav-icon fas fa-chalkboard-teacher"></i>
                 <p>
                   Cours
@@ -117,7 +117,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{ route('frontend.cycle')}}" class="nav-link">
                 <i class="nav-icon fas fa-layer-group"></i>
                 <p>
                   Cycles
@@ -125,7 +125,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{ route('frontend.plan')}}" class="nav-link">
                 <i class="nav-icon fas fa-crown"></i>
                 <p>
                   Plans
@@ -133,7 +133,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{ route('frontend.question')}}" class="nav-link">
                 <i class="nav-icon fas fa-question-circle"></i>
                 <p>
                   Questions
@@ -141,7 +141,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{ route('frontend.subject')}}" class="nav-link">
                 <i class="nav-icon fas fa-book-open"></i>
                 <p>
                   Sujets
@@ -149,7 +149,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{ route('frontend.abonnement')}}" class="nav-link">
                 <i class="nav-icon fas fa-book-open"></i>
                 <p>
                   Souscriptions

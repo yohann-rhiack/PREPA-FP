@@ -1,60 +1,62 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\frontend\HomeController;
-use App\Http\Controllers\frontend\DashboardController;
-use App\Http\Controllers\frontend\SchoolController;
-use App\Http\Controllers\frontend\CycleController;
-use App\Http\Controllers\frontend\SubjectController;
-use App\Http\Controllers\frontend\CourseController;
-use App\Http\Controllers\frontend\ChapterController;
-use App\Http\Controllers\frontend\SummaryController;
-use App\Http\Controllers\frontend\TestController;
-use App\Http\Controllers\frontend\QuizController;
-use App\Http\Controllers\frontend\AnswerController;
-use App\Http\Controllers\frontend\PlanController;
-use App\Http\Controllers\frontend\AttemptController;
-use App\Http\Controllers\frontend\SubscriptionController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\DashboardController;
+use App\Http\Controllers\Frontend\SchoolsController;
+use App\Http\Controllers\Frontend\CyclesController;
+use App\Http\Controllers\Frontend\SubjectsController;
+use App\Http\Controllers\Frontend\CoursesController;
+use App\Http\Controllers\Frontend\ChaptersController;
+use App\Http\Controllers\Frontend\SummariesController;
+use App\Http\Controllers\Frontend\SubscriptionsController;
+use App\Http\Controllers\Frontend\AttemptsController;
+use App\Http\Controllers\Frontend\PlansController;
+use App\Http\Controllers\Frontend\AnswersController;
+use App\Http\Controllers\Frontend\QuizsController;
+use App\Http\Controllers\Frontend\TestsController;
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.index');
 
 Route::get('/Admin/Dashboard', [DashboardController::class, 'dashboard'])->name('frontend.admin-dashboard');
 
-// Routes pour les écoles
-Route::resource('schools', SchoolController::class);
+// Routes pour les écoles 
+Route::get('/Admin/school', [SchoolsController::class, 'index'])->name('frontend.ecole');
+
 
 // Routes pour les cycles
-Route::resource('cycles', CycleController::class);
+Route::get('/Admin/cycle', [CyclesController::class, 'index'])->name('frontend.cycle');
+
 
 // Routes pour les sujets
-Route::resource('subjects', SubjectController::class);
+Route::get('/Admin/subject', [SubjectsController::class, 'index'])->name('frontend.subject');
 
 // Routes pour les cours
-Route::resource('courses', CourseController::class);
+Route::get('/Admin/course', [CoursesController::class, 'index'])->name('frontend.cours');
 
 // Routes pour les chapitres
-Route::resource('chapters', ChapterController::class);
+Route::get('/Admin/chapitre', [ChaptersController::class, 'index'])->name('frontend.chapitre');
 
 // Routes pour les résumés
-Route::resource('summaries', SummaryController::class);
+Route::get('/Admin/resume', [SummariesController::class, 'index'])->name('frontend.resume');
 
 // Routes pour les tests
-Route::resource('tests', TestController::class);
+Route::get('/Admin/test', [TestsController::class, 'index'])->name('frontend.test');
 
 // Routes pour les quiz
-Route::resource('quizzes', QuizController::class);
+Route::get('/Admin/question', [QuizsController::class, 'index'])->name('frontend.question');
 
 // Routes pour les réponses
-Route::resource('answers', AnswerController::class);
+Route::get('/Admin/reponse', [AnswersController::class, 'index'])->name('frontend.reponse');
 
 // Routes pour les plans
-Route::resource('plans', PlanController::class);
+Route::get('/Admin/plan', [PlansController::class, 'index'])->name('frontend.plan');
 
 // Routes pour les tentatives de tests
-Route::resource('attempts', AttemptController::class);
+Route::get('/Admin/tentative', [AttemptsController::class, 'index'])->name('frontend.tentative');
 
 // Routes pour les abonnements
-Route::resource('subscriptions', SubscriptionController::class);
+Route::get('/Admin/abonnement', [SubscriptionsController::class, 'index'])->name('frontend.abonnement');
 
 // Middleware d'authentification pour la partie dashboard
 Route::middleware([
