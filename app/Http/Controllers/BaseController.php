@@ -85,6 +85,16 @@ abstract class BaseController extends Controller
 class SchoolController extends BaseController { 
     protected $model = School::class; 
 
+    public function showDashboard($id)
+    {
+        try {
+            $entity = $this->model::findOrFail($id);
+            return response()->json(['status' => 'success', 'data' => $entity], 200);
+        } catch (Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 404);
+        }
+    }
+
 }
 class CycleController extends BaseController { protected $model = Cycle::class; }
 class SubjectController extends BaseController { protected $model = Subject::class; }
