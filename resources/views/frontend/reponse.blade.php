@@ -4,7 +4,6 @@
 @extends('layouts.sidebar')
 @extends('layouts.navbar')
 
-
 @section('body')
 <!-- Section pour la liste des réponses -->
 <div class="content">
@@ -28,32 +27,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>La capitale de la France est Paris.</td>
-                            <td class="text-center">
-                                <span class="badge badge-success">Oui</span>
-                            </td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <i class="fas fa-eye" style="color: blue; margin-right: 10px; cursor: pointer;"></i>
-                                    <i class="fas fa-edit" style="color: green; margin-right: 10px; cursor: pointer;"></i>
-                                    <i class="fas fa-trash" style="color: red; cursor: pointer;"></i>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Le Soleil tourne autour de la Terre.</td>
-                            <td class="text-center">
-                                <span class="badge badge-danger">Non</span>
-                            </td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <i class="fas fa-eye" style="color: blue; margin-right: 10px; cursor: pointer;"></i>
-                                    <i class="fas fa-edit" style="color: green; margin-right: 10px; cursor: pointer;"></i>
-                                    <i class="fas fa-trash" style="color: red; cursor: pointer;"></i>
-                                </div>
-                            </td>
-                        </tr>
+                        @foreach ($answers as $answer)
+                            <tr>
+                                <td>{{ $answer->content }}</td>
+                                <td class="text-center">
+                                    <span class="badge badge-{{ $answer->correct == 1 ? 'success' : 'danger' }}">
+                                        {{ $answer->correct == 1 ? 'Oui' : 'Non' }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="{{ route('answer.show', $answer->id) }}" class="text-primary">
+                                            <i class="fas fa-eye" style="margin-right: 10px; cursor: pointer;"></i>
+                                        </a>
+                                        <a href="{{ route('answer.edit', $answer->id) }}" class="text-success">
+                                            <i class="fas fa-edit" style="margin-right: 10px; cursor: pointer;"></i>
+                                        </a>
+                                        <form action="{{ route('answer.destroy', $answer->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-link p-0 text-danger" style="cursor: pointer;">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -73,7 +73,8 @@
             </div>
             <div class="modal-body">
                 <!-- Formulaire d'ajout dans le modal -->
-                <form action="/answers" method="POST">
+                <form action="{{ route('answer.store') }}" method="POST">
+                    @csrf
                     <div class="form-group">
                         <label for="content">Réponse :</label>
                         <textarea id="content" name="content" class="form-control" rows="3" placeholder="Entrez votre réponse" required></textarea>
@@ -83,6 +84,15 @@
                         <select id="correct" name="correct" class="form-control" required>
                             <option value="1">Oui</option>
                             <option value="0">Non</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="question_id">Question :</label>
+                        <select id="question_id" name="question_id" class="form-control" required>
+                            <!-- Remplir dynamiquement avec les questions -->
+                            @foreach ($questions as $question)
+                                <option value="{{ $question->id }}">{{ $question->content }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="text-center">
@@ -95,7 +105,6 @@
         </div>
     </div>
 </div>
-
 
 @endsection
 

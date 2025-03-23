@@ -54,12 +54,12 @@
                                         <a href="{{ route('school.edit', $school->id) }}" class="icon-link mx-2">
                                             <i class="fas fa-edit text-primary"></i>
                                         </a>
-
+                                
                                         <a href="#" class="icon-link mx-2" data-toggle="modal"
-                                            data-target="#schoolDetailsModal" data-school-id="{{ $school->id }}">
+                                        data-target="#schoolDetailsModal" data-school-id="{{ $school->id }}">
                                             <i class="fas fa-eye text-success"></i>
                                         </a>
-
+                                
                                         <a href="#"
                                             onclick="event.preventDefault(); if(confirm('Voulez-vous vraiment supprimer cette école ?')) { document.getElementById('delete-form-{{ $school->id }}').submit(); }"
                                             class="icon-link">
@@ -71,7 +71,7 @@
                                             @method('DELETE')
                                         </form>
                                     </td>
-                                </tr>
+                                </tr>                            
                             @endforeach
                         </tbody>
                     </table>
@@ -128,7 +128,7 @@
                 <p><strong>Description :</strong> <span id="school-description"></span></p>
             </div>
         </div>
-    </div> 
+    </div>
 </div>
 
 <style>
@@ -172,14 +172,22 @@ $(document).ready(function () {
         var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
         var schoolId = button.data('school-id'); // Récupération de l'ID de l'école
 
+        // Requête AJAX pour récupérer les détails de l'école
         $.ajax({
-            url: '/schools/' + schoolId, // Vérifie que cette route existe bien
+            url: '/schools/' + schoolId, // URL de la route
             type: 'GET',
             success: function (data) {
-                $('#school-name').text(data.name); 
-                $('#school-description').text(data.description);
+                if (data.status !== 'error') {
+                    // Remplir les champs du modal avec les données reçues
+                    $('#school-name').text(data.name);  // Mise à jour du nom de l'école
+                    $('#school-description').text(data.description);  // Mise à jour de la description
+                } else {
+                    $('#school-name').text('Erreur');
+                    $('#school-description').text('Impossible de charger les détails.');
+                }
             },
             error: function () {
+                // En cas d'erreur, afficher un message
                 $('#school-name').text('Erreur');
                 $('#school-description').text('Impossible de charger les détails.');
             }
@@ -193,4 +201,4 @@ $(document).ready(function () {
 @endsection
 
 @extends('layouts.footer')
-@extends('layouts.script')
+@extends('layouts.script')  

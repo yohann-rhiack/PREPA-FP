@@ -4,7 +4,6 @@
 @extends('layouts.sidebar')
 @extends('layouts.navbar')
 
-
 @section('body')
 <!-- Section pour la liste des résumés -->
 <div class="content">
@@ -28,18 +27,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Exemple de résumé dans le tableau -->
-                        <tr>
-                            <td>Résumé sur le chapitre 1</td>
-                            <td>Chapitre 1 - Introduction</td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <i class="fas fa-eye" style="color: blue; margin-right: 10px; cursor: pointer;"></i>
-                                    <i class="fas fa-edit" style="color: green; margin-right: 10px; cursor: pointer;"></i>
-                                    <i class="fas fa-trash" style="color: red; cursor: pointer;"></i>
-                                </div>
-                            </td>
-                        </tr>
+                        @foreach($summaries as $summary)
+                            <tr>
+                                <td>{{ $summary->title }}</td>
+                                <td>{{ $summary->chapter->title }}</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="{{ route('resume.show', $summary->id) }}" class="fas fa-eye" style="color: blue; margin-right: 10px;"></a>
+                                        <a href="{{ route('resume.edit', $summary->id) }}" class="fas fa-edit" style="color: green; margin-right: 10px;"></a>
+                                        <form action="{{ route('resume.destroy', $summary->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="fas fa-trash" style="color: red; border: none; background: none;"></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -59,7 +63,8 @@
             </div>
             <div class="modal-body">
                 <!-- Formulaire d'ajout dans le modal -->
-                <form action="/summaries" method="POST">
+                <form action="{{ route('resume.store') }}" method="POST">
+                    @csrf
                     <div class="form-group">
                         <label for="content">Résumé :</label>
                         <textarea id="content" name="content" class="form-control" required></textarea>
@@ -68,19 +73,19 @@
                         <label for="chapter_id">Chapitre :</label>
                         <select id="chapter_id" name="chapter_id" class="form-control" required>
                             <!-- Les options seront remplies dynamiquement avec les chapitres existants -->
+                            {{-- @foreach($chapters as $chapter)
+                                <option value="{{ $chapter->id }}">{{ $chapter->title }}</option>
+                            @endforeach --}}
                         </select>
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary">
-                            Ajouter le résumé
-                        </button>
+                        <button type="submit" class="btn btn-primary">Ajouter le résumé</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 @endsection
 
 @extends('layouts.footer')

@@ -36,7 +36,7 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-            <li class="nav-item menu-open">
+            {{-- <li class="nav-item menu-open">
               <a href="#" class="nav-link active">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
@@ -66,13 +66,53 @@
                   Simple Link
                   <span class="right badge badge-danger">New</span>
                 </p>
-              </a>
+              </a> --}}
             </li>
             <li class="nav-item">
               <a href="{{ route('frontend.ecole')}}" class="nav-link">
                 <i class="nav-icon fas fa-school"></i>
                 <p>
                   Ecole
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('frontend.cours')}}" class="nav-link">
+                <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                <p>
+                  Cours
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('frontend.cycle')}}" class="nav-link">
+                <i class="nav-icon fas fa-layer-group"></i>
+                <p>
+                  Cycles
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('frontend.subject')}}" class="nav-link">
+                <i class="nav-icon fas fa-book-open"></i>
+                <p>
+                  Sujets
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('frontend.type')}}" class="nav-link">
+                <i class="nav-icon fas fa-book-open"></i>
+                <p>
+                  Types
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('frontend.abonnement')}}" class="nav-link">
+                <i class="nav-icon fas fa-book-open"></i>
+                <p>
+                  Souscriptions
                 </p>
               </a>
             </li>
@@ -108,22 +148,7 @@
                 </p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="{{ route('frontend.cours')}}" class="nav-link">
-                <i class="nav-icon fas fa-chalkboard-teacher"></i>
-                <p>
-                  Cours
-                </p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('frontend.cycle')}}" class="nav-link">
-                <i class="nav-icon fas fa-layer-group"></i>
-                <p>
-                  Cycles
-                </p>
-              </a>
-            </li>
+            
             <li class="nav-item">
               <a href="{{ route('frontend.plan')}}" class="nav-link">
                 <i class="nav-icon fas fa-crown"></i>
@@ -137,22 +162,6 @@
                 <i class="nav-icon fas fa-question-circle"></i>
                 <p>
                   Questions
-                </p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('frontend.subject')}}" class="nav-link">
-                <i class="nav-icon fas fa-book-open"></i>
-                <p>
-                  Sujets
-                </p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('frontend.abonnement')}}" class="nav-link">
-                <i class="nav-icon fas fa-book-open"></i>
-                <p>
-                  Souscriptions
                 </p>
               </a>
             </li>

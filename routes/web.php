@@ -15,6 +15,7 @@ use App\Http\Controllers\Frontend\PlansController;
 use App\Http\Controllers\Frontend\AnswersController;
 use App\Http\Controllers\Frontend\QuizsController;
 use App\Http\Controllers\Frontend\TestsController;
+use App\Http\Controllers\Frontend\TypesController;
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.index');
 
@@ -31,37 +32,112 @@ Route::get('/schools/{id}', [SchoolsController::class, 'show'])->name('school.sh
 
 // Routes pour les cycles
 Route::get('/Admin/cycle', [CyclesController::class, 'index'])->name('frontend.cycle');
+Route::post('/cycles/store', [CyclesController::class, 'store'])->name('cycle.store');
+Route::get('/cycles/{id}/edit', [CyclesController::class, 'edit'])->name('cycle.edit');
+Route::put('/cycles/{id}', [CyclesController::class, 'update'])->name('cycle.update');
+Route::delete('/cycles/{id}', [CyclesController::class, 'destroy'])->name('cycle.destroy');
+Route::get('/cycles/{id}', [CyclesController::class, 'show'])->name('cycle.show');
+
 
 
 // Routes pour les sujets
 Route::get('/Admin/subject', [SubjectsController::class, 'index'])->name('frontend.subject');
+Route::post('/subjects/store', [SubjectsController::class, 'store'])->name('subject.store');
+Route::get('/subjects/{id}/edit', [SubjectsController::class, 'edit'])->name('subject.edit');
+Route::put('/subjects/{id}', [SubjectsController::class, 'update'])->name('subject.update');
+Route::delete('/subjects/{id}', [SubjectsController::class, 'destroy'])->name('subject.destroy');
+Route::get('/subjects/{id}', [SubjectsController::class, 'show'])->name('subject.show');
+
 
 // Routes pour les cours
 Route::get('/Admin/course', [CoursesController::class, 'index'])->name('frontend.cours');
+Route::post('/courses/store', [CoursesController::class, 'store'])->name('course.store');
+Route::get('/courses/{id}/edit', [CoursesController::class, 'edit'])->name('course.edit');
+Route::put('/courses/{id}', [CoursesController::class, 'update'])->name('course.update');
+Route::delete('/courses/{id}', [CoursesController::class, 'destroy'])->name('course.destroy');
+Route::get('/courses/{id}', [CoursesController::class, 'show'])->name('course.show');
 
-// Routes pour les chapitres
+
+/// Routes pour les chapitres
 Route::get('/Admin/chapitre', [ChaptersController::class, 'index'])->name('frontend.chapitre');
+Route::post('/chapitres/store', [ChaptersController::class, 'store'])->name('chapitre.store');
+Route::get('/chapitres/{id}/edit', [ChaptersController::class, 'edit'])->name('chapitre.edit');
+Route::put('/chapitres/{id}', [ChaptersController::class, 'update'])->name('chapitre.update');
+Route::delete('/chapitres/{id}', [ChaptersController::class, 'destroy'])->name('chapitre.destroy');
+Route::get('/chapitres/{id}', [ChaptersController::class, 'show'])->name('chapitre.show');
+
 
 // Routes pour les résumés
 Route::get('/Admin/resume', [SummariesController::class, 'index'])->name('frontend.resume');
+Route::post('/resumes/store', [SummariesController::class, 'store'])->name('resume.store');
+Route::get('/resumes/{id}/edit', [SummariesController::class, 'edit'])->name('resume.edit');
+Route::put('/resumes/{id}', [SummariesController::class, 'update'])->name('resume.update');
+Route::delete('/resumes/{id}', [SummariesController::class, 'destroy'])->name('resume.destroy');
+Route::get('/resumes/{id}', [SummariesController::class, 'show'])->name('resume.show');
 
-// Routes pour les tests
+
+/// Routes pour les tests
 Route::get('/Admin/test', [TestsController::class, 'index'])->name('frontend.test');
+Route::post('/tests/store', [TestsController::class, 'store'])->name('test.store');
+Route::get('/tests/{id}/edit', [TestsController::class, 'edit'])->name('test.edit');
+Route::put('/tests/{id}', [TestsController::class, 'update'])->name('test.update');
+Route::delete('/tests/{id}', [TestsController::class, 'destroy'])->name('test.destroy');
+Route::get('/tests/{id}', [TestsController::class, 'show'])->name('test.show');
+
 
 // Routes pour les quiz
 Route::get('/Admin/question', [QuizsController::class, 'index'])->name('frontend.question');
+Route::post('/quizs/store', [QuizsController::class, 'store'])->name('quiz.store');
+Route::get('/quizs/{id}/edit', [QuizsController::class, 'edit'])->name('quiz.edit');
+Route::put('/quizs/{id}', [QuizsController::class, 'update'])->name('quiz.update');
+Route::delete('/quizs/{id}', [QuizsController::class, 'destroy'])->name('quiz.destroy');
+Route::get('/quizs/{id}', [QuizsController::class, 'show'])->name('quiz.show');
+
 
 // Routes pour les réponses
 Route::get('/Admin/reponse', [AnswersController::class, 'index'])->name('frontend.reponse');
+Route::post('/answers/store', [AnswersController::class, 'store'])->name('answer.store');
+Route::get('/answers/{id}/edit', [AnswersController::class, 'edit'])->name('answer.edit');
+Route::put('/answers/{id}', [AnswersController::class, 'update'])->name('answer.update');
+Route::delete('/answers/{id}', [AnswersController::class, 'destroy'])->name('answer.destroy');
+Route::get('/answers/{id}', [AnswersController::class, 'show'])->name('answer.show');
+
 
 // Routes pour les plans
 Route::get('/Admin/plan', [PlansController::class, 'index'])->name('frontend.plan');
+Route::post('/plans/store', [PlansController::class, 'store'])->name('plan.store');
+Route::get('/plans/{id}/edit', [PlansController::class, 'edit'])->name('plan.edit');
+Route::put('/plans/{id}', [PlansController::class, 'update'])->name('plan.update');
+Route::delete('/plans/{id}', [PlansController::class, 'destroy'])->name('plan.destroy');
+Route::get('/plans/{id}', [PlansController::class, 'show'])->name('plan.show');
+
 
 // Routes pour les tentatives de tests
 Route::get('/Admin/tentative', [AttemptsController::class, 'index'])->name('frontend.tentative');
+Route::post('/tentatives/store', [AttemptsController::class, 'store'])->name('tentative.store');
+Route::get('/tentatives/{id}/edit', [AttemptsController::class, 'edit'])->name('tentative.edit');
+Route::put('/tentatives/{id}', [AttemptsController::class, 'update'])->name('tentative.update');
+Route::delete('/tentatives/{id}', [AttemptsController::class, 'destroy'])->name('tentative.destroy');
+Route::get('/tentatives/{id}', [AttemptsController::class, 'show'])->name('tentative.show');
 
-// Routes pour les abonnements
+
+/// Routes pour les abonnements
 Route::get('/Admin/abonnement', [SubscriptionsController::class, 'index'])->name('frontend.abonnement');
+Route::post('/abonnements/store', [SubscriptionsController::class, 'store'])->name('abonnement.store');
+Route::get('/abonnements/{id}/edit', [SubscriptionsController::class, 'edit'])->name('abonnement.edit');
+Route::put('/abonnements/{id}', [SubscriptionsController::class, 'update'])->name('abonnement.update');
+Route::delete('/abonnements/{id}', [SubscriptionsController::class, 'destroy'])->name('abonnement.destroy');
+Route::get('/abonnements/{id}', [SubscriptionsController::class, 'show'])->name('abonnement.show');
+
+
+/// Routes pour les types
+Route::get('/Admin/type', [TypesController::class, 'index'])->name('frontend.type');
+Route::post('/type/store', [TypesController::class, 'store'])->name('type.store');
+Route::get('/type/{id}/edit', [TypesController::class, 'edit'])->name('type.edit');
+Route::put('/type/{id}', [TypesController::class, 'update'])->name('type.update');
+Route::delete('/type/{id}', [TypesController::class, 'destroy'])->name('type.destroy');
+Route::get('/type/{id}', [TypesController::class, 'show'])->name('type.show');
+
 
 // Middleware d'authentification pour la partie dashboard
 Route::middleware([

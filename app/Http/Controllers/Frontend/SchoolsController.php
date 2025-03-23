@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\School;
 use Illuminate\Http\Request;
+use Exception;
 
 class SchoolsController extends Controller
 {
@@ -69,17 +70,14 @@ class SchoolsController extends Controller
         return back()->with('success', 'Ecole supprimé avec succès.');
     }
 
-    public function show($id)
-    {
-        $school = School::find($id);
-        
-        if (!$school) {
-            return response()->json(['error' => 'École non trouvée'], 404);
-        }
-
-        return response()->json($school);
-    }
-
-
+    // public function show($id)
+    // {
+    //     try {
+    //         $school = School::findOrFail($id); // Trouve l'école par son ID
+    //         return response()->json($school); // Retourne les données en JSON
+    //     } catch (Exception $e) {
+    //         return response()->json(['status' => 'error', 'message' => $e->getMessage()], 404); // Gère les erreurs
+    //     }
+    // }
 
 }

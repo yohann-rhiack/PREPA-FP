@@ -4,7 +4,6 @@
 @extends('layouts.sidebar')
 @extends('layouts.navbar')
 
-
 @section('body')
 <!-- Section pour la liste des cours -->
 <div class="content">
@@ -30,18 +29,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Exemple de cours dans le tableau -->
-                        <tr>
-                            <td>Développement Web</td>
-                            <td>Apprendre les bases du HTML, CSS et JavaScript.</td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <i class="fas fa-eye" style="color: blue; margin-right: 10px; cursor: pointer;"></i>
-                                    <i class="fas fa-edit" style="color: green; margin-right: 10px; cursor: pointer;"></i>
-                                    <i class="fas fa-trash" style="color: red; cursor: pointer;"></i>
-                                </div>
-                            </td>
-                        </tr>
+                        @foreach($courses as $course)
+                            <tr>
+                                <td>{{ $course->title }}</td>
+                                <td>{{ Str::limit($course->content, 50) }}</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="{{ route('course.show', $course->id) }}">
+                                            <i class="fas fa-eye" style="color: blue; margin-right: 10px; cursor: pointer;"></i>
+                                        </a>
+                                        <a href="{{ route('course.edit', $course->id) }}">
+                                            <i class="fas fa-edit" style="color: green; margin-right: 10px; cursor: pointer;"></i>
+                                        </a>
+                                        <form action="{{ route('course.destroy', $course->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" style="border: none; background: transparent;">
+                                                <i class="fas fa-trash" style="color: red; cursor: pointer;"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -62,14 +72,15 @@
             </div>
             <div class="modal-body">
                 <!-- Formulaire d'ajout dans le modal -->
-                <form action="/courses" method="POST">
+                <form action="{{ route('course.store') }}" method="POST">
+                    @csrf
                     <div class="form-group">
                         <label for="title">Titre du cours :</label>
                         <input type="text" id="title" name="title" class="form-control" placeholder="Entrez le titre du cours" required>
                     </div>
                     <div class="form-group">
                         <label for="content">Contenu :</label>
-                        <textarea id="content" name="content" class="form-control" rows="3" placeholder="Entrez une description du contenu"></textarea>
+                        <textarea id="content" name="content" class="form-control" rows="3" placeholder="Entrez une description du contenu" required></textarea>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">

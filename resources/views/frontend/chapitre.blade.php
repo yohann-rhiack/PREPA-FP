@@ -4,8 +4,8 @@
 @extends('layouts.sidebar')
 @extends('layouts.navbar')
 
-
 @section('body')
+
 <!-- Section pour la liste des chapitres -->
 <div class="content">
     <div class="container-fluid">
@@ -31,19 +31,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Exemple de chapitre dans le tableau -->
-                        <tr>
-                            <td>Introduction à la programmation</td>
-                            <td>Développement Web</td>
-                            <td>Aucun</td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <i class="fas fa-eye" style="color: blue; margin-right: 10px; cursor: pointer;"></i>
-                                    <i class="fas fa-edit" style="color: green; margin-right: 10px; cursor: pointer;"></i>
-                                    <i class="fas fa-trash" style="color: red; cursor: pointer;"></i>
-                                </div>
-                            </td>
-                        </tr>
+                        @foreach ($chapters as $chapter)
+                            <tr>
+                                <td>{{ $chapter->title }}</td>
+                                <td>{{ $chapter->course->title }}</td>
+                                <td>{{ $chapter->parent ? $chapter->parent->title : 'Aucun' }}</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <i class="fas fa-eye" style="color: blue; margin-right: 10px; cursor: pointer;"></i>
+                                        <i class="fas fa-edit" style="color: green; margin-right: 10px; cursor: pointer;"></i>
+                                        <i class="fas fa-trash" style="color: red; cursor: pointer;"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -65,6 +66,7 @@
             <div class="modal-body">
                 <!-- Formulaire d'ajout dans le modal -->
                 <form action="/chapters" method="POST">
+                    @csrf
                     <div class="form-group">
                         <label for="title">Titre du chapitre :</label>
                         <input type="text" id="title" name="title" class="form-control" placeholder="Entrez le titre du chapitre" required>
@@ -77,6 +79,9 @@
                         <label for="course_id">Cours :</label>
                         <select id="course_id" name="course_id" class="form-control" required>
                             <!-- Options dynamiques -->
+                            @foreach ($courses as $course)
+                                <option value="{{ $course->id }}">{{ $course->title }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
@@ -84,6 +89,9 @@
                         <select id="parent_id" name="parent_id" class="form-control">
                             <option value="">Aucun</option>
                             <!-- Options dynamiques -->
+                            @foreach ($chapters as $parentChapter)
+                                <option value="{{ $parentChapter->id }}">{{ $parentChapter->title }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="text-center">
@@ -96,7 +104,6 @@
         </div>
     </div>
 </div>
-
 
 @endsection
 

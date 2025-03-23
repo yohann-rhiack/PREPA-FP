@@ -4,7 +4,6 @@
 @extends('layouts.sidebar')
 @extends('layouts.navbar')
 
-
 @section('body')
 <!-- Section pour la liste des abonnements -->
 <div class="content">
@@ -19,6 +18,13 @@
                 </div>
             </div>
             <div class="card-body">
+                <!-- Affichage des messages de succès/erreur -->
+                @if(session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @elseif(session('error'))
+                    <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
+
                 <table class="table table-bordered">
                     <thead>
                         <tr class="text-center">
@@ -29,19 +35,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Exemple d'abonnement dans le tableau -->
-                        <tr>
-                            <td>01/01/2025</td>
-                            <td>01/01/2026</td>
-                            <td class="text-center">Actif</td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <i class="fas fa-eye" style="color: blue; margin-right: 10px; cursor: pointer;"></i>
-                                    <i class="fas fa-edit" style="color: green; margin-right: 10px; cursor: pointer;"></i>
-                                    <i class="fas fa-trash" style="color: red; cursor: pointer;"></i>
-                                </div>
-                            </td>
-                        </tr>
+                        <!-- Boucle pour afficher les abonnements -->
+                        @foreach($subscriptions as $subscription)
+                            <tr>
+                                <td>{{ $subscription->start_date }}</td>
+                                <td>{{ $subscription->end_date }}</td>
+                                <td class="text-center">{{ $subscription->status == 1 ? 'Actif' : 'Inactif' }}</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="{{ route('abonnement.show', $subscription->id) }}" class="fas fa-eye" style="color: blue; margin-right: 10px; cursor: pointer;"></a>
+                                        <a href="{{ route('abonnement.edit', $subscription->id) }}" class="fas fa-edit" style="color: green; margin-right: 10px; cursor: pointer;"></a>
+                                        <form action="{{ route('abonnement.destroy', $subscription->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="fas fa-trash" style="color: red; background: none; border: none; cursor: pointer;"></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -61,7 +73,8 @@
             </div>
             <div class="modal-body">
                 <!-- Formulaire d'ajout dans le modal -->
-                <form action="/subscriptions" method="POST">
+                <form action="{{ route('abonnement.store') }}" method="POST">
+                    @csrf
                     <div class="form-group">
                         <label for="start_date">Date de début :</label>
                         <input type="date" id="start_date" name="start_date" class="form-control" required>
