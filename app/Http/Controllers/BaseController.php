@@ -89,7 +89,7 @@ class SchoolController extends BaseController {
     {
         try {
             $entity = $this->model::findOrFail($id);
-            return response()->json(['status' => 'success', 'data' => $entity], 200);
+            return view('frontend.ecole', compact('title', 'entity'));
         } catch (Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 404);
         }
