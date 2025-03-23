@@ -22,6 +22,11 @@ Route::get('/Admin/Dashboard', [DashboardController::class, 'dashboard'])->name(
 
 // Routes pour les écoles 
 Route::get('/Admin/school', [SchoolsController::class, 'index'])->name('frontend.ecole');
+Route::post('/schools/store', [SchoolsController::class, 'store'])->name('school.store');
+Route::get('/schools/{id}/edit', [SchoolsController::class, 'edit'])->name('school.edit');
+Route::put('/schools/{id}', [SchoolsController::class, 'update'])->name('school.update');
+Route::delete('/schools/{id}', [SchoolsController::class, 'destroy'])->name('school.destroy');
+Route::get('/schools/{id}', [SchoolsController::class, 'show'])->name('school.show');
 
 
 // Routes pour les cycles

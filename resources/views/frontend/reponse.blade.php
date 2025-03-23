@@ -6,41 +6,16 @@
 
 
 @section('body')
-<!-- Section pour ajouter une réponse -->
-<div class="d-flex justify-content-center mt-5">
-    <div class="card card-warning" style="width: 50%;">
-        <div class="card-header text-center">
-            <h3 class="card-title">Ajouter une réponse</h3>
-        </div>
-        <div class="card-body">
-            <form action="/answers" method="POST">
-                <div class="form-group">
-                    <label for="content">Réponse :</label>
-                    <textarea id="content" name="content" class="form-control" rows="3" placeholder="Entrez votre réponse" required></textarea>
-                </div>
-                <div class="form-group form-check text-center">
-                    <input type="checkbox" id="tag" name="tag" value="1" class="form-check-input">
-                    <label class="form-check-label" for="tag">Correcte ?</label>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">
-                        Ajouter la réponse
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <!-- Section pour la liste des réponses -->
 <div class="content">
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
                 <div class="row justify-content-center">
-                    <a href="{{ route('frontend.reponse')}}" class="btn btn-block bg-gradient-primary w-25">
+                    <!-- Bouton qui déclenche le modal -->
+                    <button type="button" class="btn btn-block bg-gradient-primary w-25" data-toggle="modal" data-target="#addAnswerModal">
                         Ajouter une réponse <span class="fas fa-plus"></span>
-                    </a>
+                    </button>
                 </div>
             </div>
             <div class="card-body">
@@ -85,6 +60,42 @@
         </div>
     </div>
 </div>
+
+<!-- Modal pour ajouter une réponse -->
+<div class="modal fade" id="addAnswerModal" tabindex="-1" role="dialog" aria-labelledby="addAnswerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAnswerModalLabel">Ajouter une réponse</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout dans le modal -->
+                <form action="/answers" method="POST">
+                    <div class="form-group">
+                        <label for="content">Réponse :</label>
+                        <textarea id="content" name="content" class="form-control" rows="3" placeholder="Entrez votre réponse" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="correct">Réponse correcte ?</label>
+                        <select id="correct" name="correct" class="form-control" required>
+                            <option value="1">Oui</option>
+                            <option value="0">Non</option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">
+                            Ajouter la réponse
+                        </button>
+                    </div>
+                </form>                              
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @endsection
 

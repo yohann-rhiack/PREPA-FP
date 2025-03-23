@@ -156,6 +156,22 @@
                 </p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{ route('frontend.resume')}}" class="nav-link">
+                <i class="nav-icon fas fa-book-open"></i>
+                <p>
+                  Résumés
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('frontend.test')}}" class="nav-link">
+                <i class="nav-icon fas fa-book-open"></i>
+                <p>
+                  Tests
+                </p>
+              </a>
+            </li>
           </ul>
         </nav>
 
