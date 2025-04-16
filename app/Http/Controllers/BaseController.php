@@ -64,7 +64,7 @@ abstract class BaseController extends Controller
                 $entity->$key = $value ?? $entity->$key;
             }
             $entity->save();
-            return response()->json(['status' => 'success', 'data' => $entity], 200);
+            return view('frontend.ecole', compact('title', 'entity'));
         } catch (Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
