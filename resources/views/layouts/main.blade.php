@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="FR-fr">
 
 @yield('head')
@@ -13,7 +13,7 @@
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    @yield('sidebar')
+    @yield('sidebar') 
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -42,4 +42,28 @@
 
 </body>
 
+</html> --}}
+
+<!DOCTYPE html>
+<html lang="fr">
+  @yield('head')
+<body>
+
+  <!-- Sidebar -->
+  @yield('sidebar')
+
+  <!-- Navbar -->
+ @yield('navbar')
+
+  <!-- Main content -->
+  <div class="content">
+    
+    @yield('body')
+        
+  </div>
+
+
+
+  @yield('script')
+</body>
 </html>

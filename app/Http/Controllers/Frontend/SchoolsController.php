@@ -70,14 +70,20 @@ class SchoolsController extends Controller
         return back()->with('success', 'Ecole supprimé avec succès.');
     }
 
-    // public function show($id)
-    // {
-    //     try {
-    //         $school = School::findOrFail($id); // Trouve l'école par son ID
-    //         return response()->json($school); // Retourne les données en JSON
-    //     } catch (Exception $e) {
-    //         return response()->json(['status' => 'error', 'message' => $e->getMessage()], 404); // Gère les erreurs
-    //     }
-    // }
+    public function showSchoolDetails($id)
+    {
+        // Récupérer l'école
+        $school = School::find($id);
+    
+        // Vérifier si l'école existe
+        if (!$school) {
+            return response()->json(['error' => 'École introuvable'], 404);
+        }
+    
+        return response()->json([
+            'name' => $school->name,
+            'description' => $school->description ?? 'N/A',  // Si la description est vide, on renvoie 'N/A'
+        ]);
+    }
 
 }

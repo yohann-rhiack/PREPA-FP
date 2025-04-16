@@ -1,4 +1,4 @@
-@section('navbar')
+{{-- @section('navbar')
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
@@ -13,8 +13,8 @@
         </li>
       </ul>
 
-      <!-- Right navbar links -->
-      <ul class="navbar-nav ml-auto">
+     <!-- Right navbar links -->
+     <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->
         <li class="nav-item">
           <a class="nav-link" data-widget="navbar-search" href="#" role="button">
@@ -132,6 +132,23 @@
             <i class="fas fa-th-large"></i>
           </a>
         </li>
-      </ul>
+      </ul> 
     </nav>
+@endsection --}}
+
+@section('navbar')
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container-fluid">
+    <!-- Logo dans la navbar -->
+    <a class="navbar-brand" href="#">
+      <img src="{{ asset ('/frontend')}}/dist/img/prepa-fp.png" alt="Logo" class="img-fluid" style="height: 60px;">
+    </a>
+    <button class="btn btn-primary d-lg-none" id="toggleSidebarBtn">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="navbar-nav ml-auto">
+      <a href="{{ route('frontend.test') }}" class="btn btn-primary">Créer un quiz</a> <!-- Lien ajouté -->
+    </div>
+  </div>
+</nav>
 @endsection

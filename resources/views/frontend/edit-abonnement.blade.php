@@ -52,7 +52,7 @@
 
                             <!-- Back to Subscription List Button -->
                             <div class="col-md-6">
-                                <a href="{{ route('abonnement.index') }}" class="btn btn-secondary w-100">Retour à la Liste</a>
+                                <a href="{{ route('frontend.abonnement') }}" class="btn btn-secondary w-100">Retour à la Liste</a>
                             </div>
                         </div>
                     </form>

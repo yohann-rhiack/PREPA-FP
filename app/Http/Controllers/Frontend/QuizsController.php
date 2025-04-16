@@ -19,15 +19,12 @@ class QuizsController extends Controller
     {
         $validated = $request->validate([
             'question' => 'required|string|max:500',
-            'options' => 'required|array|min:2', // Minimum 2 options
-            'options.*' => 'required|string|max:255', // Chaque option doit être une chaîne
-            'correct_option' => 'required|string|max:255',
+            'tag' => 'nullable|string|max:255', // Tag est facultatif
         ]);
 
         Quiz::create([
             'question' => $validated['question'],
-            'options' => json_encode($validated['options']), // Stockage en JSON
-            'correct_option' => $validated['correct_option'],
+            'tag' => $validated['tag'] ?? null, // Si le tag est fourni, on l'ajoute, sinon il est null
         ]);
 
         return redirect()->back()->with('success', 'Question ajoutée avec succès.');
@@ -44,16 +41,13 @@ class QuizsController extends Controller
     {
         $validated = $request->validate([
             'question' => 'required|string|max:500',
-            'options' => 'required|array|min:2',
-            'options.*' => 'required|string|max:255',
-            'correct_option' => 'required|string|max:255',
+            'tag' => 'nullable|string|max:255', // Tag est facultatif
         ]);
 
         $question = Quiz::findOrFail($id);
         $question->update([
             'question' => $validated['question'],
-            'options' => json_encode($validated['options']),
-            'correct_option' => $validated['correct_option'],
+            'tag' => $validated['tag'] ?? null, // Si le tag est fourni, on l'ajoute, sinon il est null
         ]);
 
         return redirect()->route('frontend.question')->with('success', 'Question mise à jour avec succès.');

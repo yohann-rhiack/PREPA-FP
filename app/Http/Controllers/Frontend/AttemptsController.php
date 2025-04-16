@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attempt;
+use App\Models\Test;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -13,23 +15,28 @@ class AttemptsController extends Controller
     {
         $title = 'Gestionnaire des Tentatives';
         $attempts = Attempt::all();
-        return view('frontend.tentative', compact('title', 'attempts'));
+        $tests = Test::all(); 
+        $users = User::all();
+        return view('frontend.tentative', compact('title', 'attempts', 'tests', 'users'));
     }
 
     public function store(Request $request)
     {
         // Validation des données
         $validated = $request->validate([
+            'start_time' => 'required|date_format:H:i:s',
+            'end_time' => 'required|date_format:H:i:s|after:start_time',
+            'test_id' => 'required|exists:tests,id',
             'user_id' => 'required|exists:users,id',
-            'score' => 'required|numeric',
-            'exam_id' => 'required|exists:exams,id',
         ]);
+        
 
         // Création de la tentative
         Attempt::create([
             'user_id' => $validated['user_id'],
-            'score' => $validated['score'],
-            'exam_id' => $validated['exam_id'],
+            'test_id' => $validated['test_id'],
+            'start_time' => $validated['start_time'],
+            'end_time' => $validated['end_time'],
         ]);
 
         return redirect()->back()->with('success', 'Tentative enregistrée avec succès.');
@@ -37,25 +44,30 @@ class AttemptsController extends Controller
 
     public function edit($id)
     {
-        // Trouver la tentative
-        $attempt = Attempt::findOrFail($id);
         $title = 'Modifier Tentative';
-        return view('frontend.edit-tentative', compact('title', 'attempt'));
+        $attempt = Attempt::findOrFail($id);
+        $tests = Test::all();
+        $users = User::all();
+        return view('frontend.edit-tentative', compact('attempt', 'tests', 'users', 'title'));
     }
 
     public function update(Request $request, $id)
     {
-        // Validation des données
         $validated = $request->validate([
-            'score' => 'required|numeric',
+            'user_id' => 'required|exists:users,id',
+            'test_id' => 'required|exists:tests,id',
+            'start_time' => 'required|date_format:H:i:s',
+            'end_time' => 'required|date_format:H:i:s|after:start_time',
         ]);
 
-        // Trouver la tentative
         $attempt = Attempt::findOrFail($id);
 
-        // Mettre à jour la tentative
+        // Mise à jour des champs
         $attempt->update([
-            'score' => $validated['score'],
+            'user_id' => $validated['user_id'],
+            'test_id' => $validated['test_id'],
+            'start_time' => $validated['start_time'],
+            'end_time' => $validated['end_time'],
         ]);
 
         return redirect()->route('frontend.tentative')->with('success', 'Tentative mise à jour avec succès.');
@@ -72,11 +84,8 @@ class AttemptsController extends Controller
 
     public function show($id)
     {
-        try {
-            $attempt = Attempt::findOrFail($id);
-            return response()->json(['status' => 'success', 'data' => $attempt], 200);
-        } catch (Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 404);
-        }
+        $title = 'Détails de la Tentative';
+        $attempt = Attempt::with(['test', 'user'])->findOrFail($id);
+        return view('frontend.show-tentative', compact('attempt','title'));
     }
 }

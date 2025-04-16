@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('summaries', function (Blueprint $table) {
             $table->id();
-            $table->text('content');
-            $table->foreignId('chapter_id')->constrained('chapters')->onDelete('cascade');
+            $table->foreignId('course_id')->constrained()->onDelete('cascade'); // Référence à un cours
+            $table->text('summary_description'); // Description du résumé
             $table->timestamps();
         });
+        
     }
 
     /**

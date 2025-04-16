@@ -9,6 +9,7 @@
 <!-- Section pour la liste des chapitres -->
 <div class="content">
     <div class="container-fluid">
+        <h1 class="text-center">{{ $title }}</h1>
         <div class="card">
             <div class="card-header">
                 <div class="row justify-content-center">
@@ -26,7 +27,7 @@
                         <tr class="text-center">
                             <th>Titre</th>
                             <th>Cours</th>
-                            <th>Chapitre Parent</th>
+                            <th>Chapitre</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -85,7 +86,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="parent_id">Chapitre parent (facultatif) :</label>
+                        <label for="parent_id">Chapitre (facultatif) :</label>
                         <select id="parent_id" name="parent_id" class="form-control">
                             <option value="">Aucun</option>
                             <!-- Options dynamiques -->

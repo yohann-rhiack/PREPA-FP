@@ -47,10 +47,9 @@ class SubscriptionsController extends Controller
     {
         // Validation des données
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:subscriptions,name,' . $id,
-            'description' => 'nullable|string|max:500',
-            'price' => 'required|numeric',
-            'duration' => 'required|integer',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'status' => 'required|boolean',
         ]);
 
         // Trouver l'abonnement par son ID
@@ -58,10 +57,10 @@ class SubscriptionsController extends Controller
 
         // Mettre à jour l'abonnement
         $subscription->update([
-            'name' => $validated['name'],
-            'description' => $validated['description'] ?? null,
-            'price' => $validated['price'],
-            'duration' => $validated['duration'],
+            'start_date' => $validated['start_date'],
+            'end_date' => $validated['end_date'], 
+            'status' => $validated['status'],
+         
         ]);
 
         return redirect()->route('frontend.abonnement')->with('success', 'Abonnement mis à jour avec succès.');
@@ -77,13 +76,20 @@ class SubscriptionsController extends Controller
     }
     
 
-    public function show($id)
+    public function showAbonnementDetails($id)
     {
-        try {
-            $subscription = Subscription::findOrFail($id);
-            return response()->json(['status' => 'success', 'data' => $subscription], 200);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => 'Abonnement non trouvé'], 404);
+        // Récupérer l'abonnement
+        $abonnements = Subscription::find($id);
+    
+        // Vérifier si l'abonnement existe
+        if (!$abonnements) {
+            return response()->json(['error' => 'Abonnement introuvable'], 404);
         }
+    
+        return response()->json([
+            'start_date' => $abonnements->start_date,
+            'end_date' => $abonnements->end_date, 
+            'status' => $abonnements->status,
+        ]);
     }
 }

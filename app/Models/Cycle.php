@@ -10,4 +10,10 @@ class Cycle extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'description'];
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'cycle_subjects');
+    }
+    
 }

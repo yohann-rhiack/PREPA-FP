@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Plan;
 use Illuminate\Http\Request;
+use App\Models\Course;
 
 class PlansController extends Controller
 {
@@ -12,15 +13,17 @@ class PlansController extends Controller
     {
         $title = 'Gestionnaire des Plans';
         $plans = Plan::all();
-        return view('frontend.plan', compact('title', 'plans'));
+        $courses = Course::all();
+        return view('frontend.plan', compact('title', 'plans', 'courses'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:500',
-            'price' => 'required|numeric|min:0',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+            'course_id' => 'required|exists:courses,id',
         ]);
 
         Plan::create($validated);
@@ -31,20 +34,26 @@ class PlansController extends Controller
     public function edit($id)
     {
         $plan = Plan::findOrFail($id);
-        $title = 'Modifier Plan';
-        return view('frontend.edit-plan', compact('title', 'plan'));
+        $title = 'Modifier le Plan';
+        $courses = Course::all();
+        return view('frontend.edit-plan', compact('title', 'plan', 'courses'));
     }
 
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string|max:500',
             'price' => 'required|numeric|min:0',
+            'course_id' => 'required|exists:courses,id', // Validation pour un seul cours
         ]);
 
         $plan = Plan::findOrFail($id);
-        $plan->update($validated);
+        $plan->update([
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'course_id' => $validated['course_id'], // Mise à jour du cours associé
+        ]);
 
         return redirect()->route('frontend.plan')->with('success', 'Plan mis à jour avec succès.');
     }
@@ -59,12 +68,9 @@ class PlansController extends Controller
 
     public function show($id)
     {
-        try {
-            $plan = Plan::findOrFail($id);
-            return response()->json(['status' => 'success', 'data' => $plan], 200);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => 'Plan non trouvé'], 404);
-        }
+        $plans = Plan::with('course')->findOrFail($id);
+        $title = 'Détails du plan';
+        return view('frontend.show-plan', compact('plans','title'));
     }
 }
 

@@ -32,7 +32,7 @@ class TypesController extends Controller
     public function edit($id)
     {
         // Trouver le type par son ID
-        $types = Type::findOrFail($id);
+        $type = Type::findOrFail($id);
         $title = 'Modifier Type';
         return view('frontend.edit-type', compact('title', 'type'));
     }
@@ -41,8 +41,8 @@ class TypesController extends Controller
     {
         // Validation des données
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:tests,name,' . $id,
-            'description' => 'required|string',
+            'title' => 'required|string|max:255',
+           
         ]);
 
         // Trouver le type par son ID
@@ -50,8 +50,8 @@ class TypesController extends Controller
 
         // Mettre à jour le type
         $types->update([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
+            'title' => $validated['title'],
+            
         ]);
 
         return redirect()->route('frontend.type')->with('success', 'Type mis à jour avec succès.');

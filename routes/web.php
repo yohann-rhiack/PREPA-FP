@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\DashboardController;
@@ -14,20 +15,30 @@ use App\Http\Controllers\Frontend\AttemptsController;
 use App\Http\Controllers\Frontend\PlansController;
 use App\Http\Controllers\Frontend\AnswersController;
 use App\Http\Controllers\Frontend\QuizsController;
+use App\Http\Controllers\Frontend\RolesController;
 use App\Http\Controllers\Frontend\TestsController;
 use App\Http\Controllers\Frontend\TypesController;
+use App\Http\Controllers\Frontend\UsersController;
 
-Route::get('/', [HomeController::class, 'index'])->name('frontend.index');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/Admin/Dashboard', [DashboardController::class, 'dashboard'])->name('frontend.admin-dashboard');
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+Route::post('/register', [AuthController::class, 'register'])->middleware('guest');
 
+// Route::get('/Admin/Dashboard', [DashboardController::class, 'dashboard'])->name('frontend.admin-dashboard');
+
+
+// // Middleware d'authentification pour la partie dashboard
+Route::middleware(['auth'])->group(function () {
+
+    
 // Routes pour les écoles 
 Route::get('/Admin/school', [SchoolsController::class, 'index'])->name('frontend.ecole');
 Route::post('/schools/store', [SchoolsController::class, 'store'])->name('school.store');
 Route::get('/schools/{id}/edit', [SchoolsController::class, 'edit'])->name('school.edit');
 Route::put('/schools/{id}', [SchoolsController::class, 'update'])->name('school.update');
 Route::delete('/schools/{id}', [SchoolsController::class, 'destroy'])->name('school.destroy');
-Route::get('/schools/{id}', [SchoolsController::class, 'show'])->name('school.show');
+Route::get('/frontend/schools/{id}/details', [SchoolsController::class, 'showSchoolDetails'])->name('school.details');
 
 
 // Routes pour les cycles
@@ -38,16 +49,15 @@ Route::put('/cycles/{id}', [CyclesController::class, 'update'])->name('cycle.upd
 Route::delete('/cycles/{id}', [CyclesController::class, 'destroy'])->name('cycle.destroy');
 Route::get('/cycles/{id}', [CyclesController::class, 'show'])->name('cycle.show');
 
-
-
 // Routes pour les sujets
 Route::get('/Admin/subject', [SubjectsController::class, 'index'])->name('frontend.subject');
+Route::post('/subjects/store', [SubjectsController::class, 'store'])->name('subject.store');
+Route::get('/subjects/{id}/edit', [SubjectsController::class, 'edit'])->name('subject.edit');
 Route::post('/subjects/store', [SubjectsController::class, 'store'])->name('subject.store');
 Route::get('/subjects/{id}/edit', [SubjectsController::class, 'edit'])->name('subject.edit');
 Route::put('/subjects/{id}', [SubjectsController::class, 'update'])->name('subject.update');
 Route::delete('/subjects/{id}', [SubjectsController::class, 'destroy'])->name('subject.destroy');
 Route::get('/subjects/{id}', [SubjectsController::class, 'show'])->name('subject.show');
-
 
 // Routes pour les cours
 Route::get('/Admin/course', [CoursesController::class, 'index'])->name('frontend.cours');
@@ -56,7 +66,6 @@ Route::get('/courses/{id}/edit', [CoursesController::class, 'edit'])->name('cour
 Route::put('/courses/{id}', [CoursesController::class, 'update'])->name('course.update');
 Route::delete('/courses/{id}', [CoursesController::class, 'destroy'])->name('course.destroy');
 Route::get('/courses/{id}', [CoursesController::class, 'show'])->name('course.show');
-
 
 /// Routes pour les chapitres
 Route::get('/Admin/chapitre', [ChaptersController::class, 'index'])->name('frontend.chapitre');
@@ -127,7 +136,7 @@ Route::post('/abonnements/store', [SubscriptionsController::class, 'store'])->na
 Route::get('/abonnements/{id}/edit', [SubscriptionsController::class, 'edit'])->name('abonnement.edit');
 Route::put('/abonnements/{id}', [SubscriptionsController::class, 'update'])->name('abonnement.update');
 Route::delete('/abonnements/{id}', [SubscriptionsController::class, 'destroy'])->name('abonnement.destroy');
-Route::get('/abonnements/{id}', [SubscriptionsController::class, 'show'])->name('abonnement.show');
+Route::get('/frontend/abonnements/{id}/details', [SubscriptionsController::class, 'showAbonnementDetails'])->name('abonnement.details');
 
 
 /// Routes pour les types
@@ -138,14 +147,24 @@ Route::put('/type/{id}', [TypesController::class, 'update'])->name('type.update'
 Route::delete('/type/{id}', [TypesController::class, 'destroy'])->name('type.destroy');
 Route::get('/type/{id}', [TypesController::class, 'show'])->name('type.show');
 
+/// Routes pour les roles
+Route::get('/Admin/role', [RolesController::class, 'index'])->name('frontend.role');
+Route::post('/role/store', [RolesController::class, 'store'])->name('role.store');
+Route::get('/role/{id}/edit', [RolesController::class, 'edit'])->name('role.edit');
+Route::put('/role/{id}', [RolesController::class, 'update'])->name('role.update');
+Route::delete('/role/{id}', [RolesController::class, 'destroy'])->name('role.destroy');
+Route::get('/role/{id}', [RolesController::class, 'show'])->name('role.show');
 
-// Middleware d'authentification pour la partie dashboard
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+// Routes pour les utilisateurs
+Route::get('/Admin/utilisateur', [UsersController::class, 'index'])->name('frontend.utilisateur');
+Route::post('/utilisateur/store', [UsersController::class, 'store'])->name('utilisateur.store');
+Route::get('/utilisateur/{id}/edit', [UsersController::class, 'edit'])->name('utilisateur.edit');
+Route::put('/utilisateur/{id}', [UsersController::class, 'update'])->name('utilisateur.update');
+Route::delete('/utilisateur/{id}', [UsersController::class, 'destroy'])->name('utilisateur.destroy');
+Route::get('/utilisateur/{id}', [UsersController::class, 'show'])->name('utilisateur.show');
+
+
+
+    Route::get('/Admin/Dashboard', [DashboardController::class, 'dashboard'])->name('frontend.admin-dashboard');
+  
 });

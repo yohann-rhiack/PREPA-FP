@@ -12,10 +12,11 @@ class ChaptersController extends Controller
 {
     public function index()
     {
+        $title = 'Liste des Chapitres'; // Définir le titre
         $courses = Course::all(); // Récupère tous les cours
         $chapters = Chapter::with('course', 'parent')->get(); // Récupère tous les chapitres avec leurs relations
 
-        return view('frontend.chapitre', compact('courses', 'chapters')); // Passe les données à la vue
+        return view('frontend.chapitre', compact('title','courses', 'chapters')); // Passe les données à la vue
     }
 
     public function store(Request $request)
@@ -23,14 +24,14 @@ class ChaptersController extends Controller
         // Validation des données
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'chapter_description' => 'required|string',
             'course_id' => 'required|exists:courses,id',
         ]);
 
         // Création du chapitre
         Chapter::create([
             'title' => $validated['title'],
-            'content' => $validated['content'],
+            'chapter_description' => $validated['chapter_description'],
             'course_id' => $validated['course_id'],
         ]);
 

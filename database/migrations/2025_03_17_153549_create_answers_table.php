@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
             $table->text('content');
+            $table->foreignId('quiz_id')->constrained('quizzes')->onDelete('cascade');
             $table->boolean('tag')->default(false);
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

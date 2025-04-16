@@ -14,6 +14,8 @@ class Plan extends Model
 
     public function course()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Course::class); // Relation pour un seul cours
     }
+
+    
 }

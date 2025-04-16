@@ -6,43 +6,56 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\HasApiTokens;
 use Exception;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        try {
-            $user = new User();
-            $user->fname = $request->input('fname');
-            $user->lname = $request->input('lname');
-            $user->email = $request->input('email');
-            $user->phone = $request->input('phone');
-            $user->password = Hash::make($request->input('password'));
-            $user->save();
+        // Validation des données
+        $request->validate([
+            'fname' => ['required', 'string', 'max:255'],
+            'lname' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', 'min:8'],
+        ]);
 
-            $token = $user->createToken('auth_token')->plainTextToken;
-            return response()->json(['status' => 'success', 'token' => $token, 'user' => $user], 201);
-        } catch (Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
-        }
+
+        $user = User::create([
+            'fname' => $request->fname,
+            'lname' => $request->lname,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+    
+        Auth::login($user);
+    
+        // Redirection vers la page d'admin-dashboard dans votre backend
+        return redirect()->route('frontend.admin-dashboard');
     }
 
     public function login(Request $request)
     {
-        try {
-            $user = User::where('email', $request->input('email'))->first();
-            
-            if (!$user || !Hash::check($request->input('password'), $user->password)) {
-                return response()->json(['status' => 'error', 'message' => 'Invalid credentials'], 401);
-            }
-
-            $token = $user->createToken('auth_token')->plainTextToken;
-            return response()->json(['status' => 'success', 'token' => $token, 'user' => $user], 200);
-        } catch (Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    
+        if (Auth::attempt($request->only('email', 'password'))) {
+            $request->session()->regenerate();
+    
+            // Redirection vers la page d'admin-dashboard
+            return redirect()->route('frontend.admin-dashboard');
         }
+    
+        throw ValidationException::withMessages([
+            'email' => __('auth.failed'),
+        ]);
     }
 
     public function logout(Request $request)

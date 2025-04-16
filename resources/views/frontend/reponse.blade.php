@@ -80,19 +80,10 @@
                         <textarea id="content" name="content" class="form-control" rows="3" placeholder="Entrez votre réponse" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="correct">Réponse correcte ?</label>
-                        <select id="correct" name="correct" class="form-control" required>
+                        <label for="tag">Tag :</label>
+                        <select id="tag" name="tag" class="form-control" required>
                             <option value="1">Oui</option>
                             <option value="0">Non</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="question_id">Question :</label>
-                        <select id="question_id" name="question_id" class="form-control" required>
-                            <!-- Remplir dynamiquement avec les questions -->
-                            @foreach ($questions as $question)
-                                <option value="{{ $question->id }}">{{ $question->content }}</option>
-                            @endforeach
                         </select>
                     </div>
                     <div class="text-center">
@@ -104,7 +95,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>  
 
 @endsection
 

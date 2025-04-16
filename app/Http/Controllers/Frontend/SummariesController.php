@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class SummariesController extends Controller
 {
-    public function index()
+    public function index() 
     {
         $title = 'Gestionnaire des Résumés';
         $summaries = Summary::all();  // Récupère tous les résumés
@@ -19,14 +19,15 @@ class SummariesController extends Controller
     {
         // Validation des données
         $validated = $request->validate([
-            'title' => 'required|string|max:255|unique:summaries,title',
+            // 'title' => 'required|string|max:255|unique:summaries,title',
             'content' => 'required|string',
         ]);
 
         // Création du résumé
         Summary::create([
-            'title' => $validated['title'],
+            // 'title' => $validated['title'],
             'content' => $validated['content'],
+          
         ]);
 
         return redirect()->back()->with('success', 'Résumé ajouté avec succès.');
@@ -45,7 +46,7 @@ class SummariesController extends Controller
         // Validation des données
         $validated = $request->validate([
             'title' => 'required|string|max:255|unique:summaries,title,' . $id,
-            'content' => 'required|string',
+            'summary_description' => 'required|string',
         ]);
 
         // Trouver le résumé par son ID
@@ -54,7 +55,7 @@ class SummariesController extends Controller
         // Mettre à jour le résumé
         $summary->update([
             'title' => $validated['title'],
-            'content' => $validated['content'],
+            'summary_description' => $validated['summary_description'],
         ]);
 
         return redirect()->route('frontend.resume')->with('success', 'Résumé mis à jour avec succès.');

@@ -8,103 +8,103 @@
 @section('body')
 
 <!-- section pour la liste des écoles -->
-<div class="content">
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-header">
-                <div class="row justify-content-center">
-                    <!-- Bouton qui déclenche le modal -->
-                    <button type="button" class="btn btn-block bg-gradient-primary w-25" data-toggle="modal" data-target="#addSchoolModal">
-                        Ajouter une école <span class="fas fa-plus"></span>
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow rounded">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Liste des écoles</h5>
+                    <button type="button" class="btn btn-primary btn-sm" id="openAddSchoolModal">
+                        <i class="fas fa-plus"></i> Ajouter une école
                     </button>
                 </div>
-            </div>
 
-            <div class="card-body">
-                @if(session('success'))
-                <div class="alert alert-success" role="alert" id="success-message">
-                    {{ session('success') }}
-                </div>
-                @endif
-                @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
+                <div class="card-body">
+                    @if(session('success'))
+                        <div class="alert alert-success" id="success-message">
+                            {{ session('success') }}
+                        </div>
+                    @endif
 
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="text-center">
-                                <th>Nom de l'école</th>
-                                <th>Description</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($schools as $school)
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover text-center w-100">
+                            <thead class="thead-light">
                                 <tr>
-                                    <td>{{$school->name}}</td>
-                                    <td>{{$school->description}}</td>
-                                    <td class="d-flex justify-content-center align-items-center">
-                                        <a href="{{ route('school.edit', $school->id) }}" class="icon-link mx-2">
-                                            <i class="fas fa-edit text-primary"></i>
-                                        </a>
-                                
-                                        <a href="#" class="icon-link mx-2" data-toggle="modal"
-                                        data-target="#schoolDetailsModal" data-school-id="{{ $school->id }}">
-                                            <i class="fas fa-eye text-success"></i>
-                                        </a>
-                                
-                                        <a href="#"
-                                            onclick="event.preventDefault(); if(confirm('Voulez-vous vraiment supprimer cette école ?')) { document.getElementById('delete-form-{{ $school->id }}').submit(); }"
-                                            class="icon-link">
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </a>
-                                        <form id="delete-form-{{ $school->id }}" method="POST"
-                                            action="{{ route('school.destroy', $school->id) }}" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                    </td>
-                                </tr>                            
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div> 
+                                    <th>Nom de l'école</th>
+                                    <th>Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($schools as $school)
+                                    <tr>
+                                        <td>{{ $school->name }}</td>
+                                        <td>{{ $school->description }}</td>
+                                        <td>
+                                            <a href="{{ route('school.edit', $school->id) }}" class="mx-1 text-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="#" class="mx-1 text-success" data-bs-toggle="modal"
+                                               data-bs-target="#schoolDetailsModal" data-school-id="{{ $school->id }}">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="mx-1 text-danger"
+                                               onclick="event.preventDefault(); if(confirm('Voulez-vous vraiment supprimer cette école ?')) { document.getElementById('delete-form-{{ $school->id }}').submit(); }">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                            <form id="delete-form-{{ $school->id }}" method="POST"
+                                                  action="{{ route('school.destroy', $school->id) }}" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+
 <!-- Modal pour ajouter une école -->
-<div class="modal fade" id="addSchoolModal" tabindex="-1" role="dialog" aria-labelledby="addSchoolModalLabel" aria-hidden="true">
+<div class="modal fade" id="addSchoolModal" tabindex="-1" aria-labelledby="addSchoolModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addSchoolModalLabel">Ajouter une école</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <div class="modal-content shadow-lg rounded-4">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold" id="addSchoolModalLabel">Ajouter une école</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('school.store')}}" method="POST">
+                <form action="{{ route('school.store') }}" method="POST">
                     @csrf
-                    <div class="form-group">
-                        <label for="name">Nom de l'école :</label>
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Entrez le nom de l'école" required>
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-semibold">Nom de l'école</label>
+                        <input type="text" id="name" name="name" class="form-control rounded-pill shadow-sm" placeholder="Ex : Lycée Moderne de Cocody" required>
                     </div>
-                    <div class="form-group">
-                        <label for="description">Description :</label>
-                        <textarea id="description" name="description" class="form-control" rows="3" placeholder="Entrez une description"></textarea>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label fw-semibold">Description</label>
+                        <textarea id="description" name="description" class="form-control rounded-3 shadow-sm" rows="3" placeholder="Brève description de l’école..."></textarea>
                     </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">
-                            Enregistrer
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill shadow">
+                            <i class="fas fa-save me-2"></i> Enregistrer
                         </button>
                     </div>
                 </form>
@@ -113,23 +113,26 @@
     </div>
 </div>
 
+
 <!-- Modal pour afficher les détails de l'école -->
 <div class="modal fade" id="schoolDetailsModal" tabindex="-1" role="dialog" aria-labelledby="schoolDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="schoolDetailsModalLabel">Détails de l'école</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <p><strong>Nom de l'école :</strong> <span id="school-name"></span></p>
-                <p><strong>Description :</strong> <span id="school-description"></span></p>
+            <div class="modal-body" id="schoolDetailsContent">
+                <!-- Les informations de l'école seront insérées ici via AJAX -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>
 </div>
+
+
 
 <style>
     .icon-link {
@@ -141,11 +144,38 @@
     .icon-link:hover {
         opacity: 0.7;
     }
+
+    .modal-content {
+        border-radius: 1rem;
+    }
+
+    input.form-control, textarea.form-control {
+        transition: all 0.3s ease-in-out;
+    }
+
+    input.form-control:focus, textarea.form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .form-label {
+        color: #333;
+    }
 </style>
 
 <!-- Toastr CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" defer></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script defer>
     document.addEventListener("DOMContentLoaded", function() {
@@ -166,39 +196,58 @@
     });
 </script>
 
-<script defer>
-$(document).ready(function () {
-    $('#schoolDetailsModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
-        var schoolId = button.data('school-id'); // Récupération de l'ID de l'école
+<!-- Le script pour récupérer et afficher les données -->
+<script>
+    $(document).ready(function () {
+        // Assure-toi que le bouton ouvre le modal
+        $('a[data-bs-toggle="modal"]').click(function (event) {
+            event.preventDefault();
 
-        // Requête AJAX pour récupérer les détails de l'école
-        $.ajax({
-            url: '/schools/' + schoolId, // URL de la route
-            type: 'GET',
-            success: function (data) {
-                if (data.status !== 'error') {
-                    // Remplir les champs du modal avec les données reçues
-                    $('#school-name').text(data.name);  // Mise à jour du nom de l'école
-                    $('#school-description').text(data.description);  // Mise à jour de la description
-                } else {
-                    $('#school-name').text('Erreur');
-                    $('#school-description').text('Impossible de charger les détails.');
+            var schoolId = $(this).data('school-id'); // ID de l'école depuis le bouton
+            var modal = $('#schoolDetailsModal');
+
+            $.ajax({
+                url: '/frontend/schools/' + schoolId + '/details',  // URL de la route pour récupérer les détails de l'école
+                method: 'GET',
+                success: function (data) {
+                    console.log("Données reçues:", data); // Vérifie les données reçues dans la console
+
+                    var content = '<p><strong>Nom de l\'école:</strong> ' + data.name + '</p>';
+                    content += '<p><strong>Description:</strong> ' + (data.description || 'N/A') + '</p>';
+
+                    // Insère le contenu dans le modal
+                    modal.find('#schoolDetailsContent').html(content);
+
+                    // Ouvre le modal
+                    modal.modal('show');
+                },
+                error: function (xhr) {
+                    console.error("Erreur AJAX:", xhr.responseText);
+                    $('#schoolDetailsContent').html('<p>Une erreur s\'est produite lors du chargement des détails de l\'école.</p>');
                 }
-            },
-            error: function () {
-                // En cas d'erreur, afficher un message
-                $('#school-name').text('Erreur');
-                $('#school-description').text('Impossible de charger les détails.');
-            }
+            });
         });
     });
-});
-
 </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Vérifie si Bootstrap est chargé
+        if (typeof bootstrap === 'undefined') {
+            console.error("Bootstrap n'est pas chargé. Assurez-vous que les fichiers JS et CSS de Bootstrap sont inclus.");
+            return;
+        }
+
+        // Initialisation manuelle du modal pour le bouton
+        const openAddSchoolModal = document.getElementById("openAddSchoolModal");
+        openAddSchoolModal.addEventListener("click", function () {
+            const modal = new bootstrap.Modal(document.getElementById("addSchoolModal"));
+            modal.show();
+        });
+    });
+</script>
 
 @endsection
 
 @extends('layouts.footer')
-@extends('layouts.script')  
+@extends('layouts.script')

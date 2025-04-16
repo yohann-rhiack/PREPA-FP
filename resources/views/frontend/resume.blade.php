@@ -30,7 +30,7 @@
                         @foreach($summaries as $summary)
                             <tr>
                                 <td>{{ $summary->title }}</td>
-                                <td>{{ $summary->chapter->title }}</td>
+                                <td>{{ $summary->summary_description }}</td> 
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center align-items-center">
                                         <a href="{{ route('resume.show', $summary->id) }}" class="fas fa-eye" style="color: blue; margin-right: 10px;"></a>

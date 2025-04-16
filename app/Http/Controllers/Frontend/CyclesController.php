@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cycle;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -13,7 +14,8 @@ class CyclesController extends Controller
     {
         $title = 'Gestionnaire des Cycles';
         $cycles = Cycle::all();
-        return view('frontend.cycle', compact('title', 'cycles'));
+        $subjects = Subject::all(); 
+        return view('frontend.cycle', compact('title', 'cycles', 'subjects'));
     }
 
     public function store(Request $request)
@@ -22,41 +24,50 @@ class CyclesController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'subject_ids' => 'required|array', // Assurez-vous que c'est un tableau
+            'subject_ids.*' => 'exists:subjects,id', // Vérifier que chaque ID existe
         ]);
-
+    
         // Création du cycle
-        Cycle::create([
+        $cycle = Cycle::create([
             'name' => $validated['name'],
             'description' => $validated['description'] ?? null,
         ]);
-
-        return redirect()->back()->with('success', 'Cycle ajouté avec succès.');
+    
+        // Attacher les matières sélectionnées dans la table pivot
+        $cycle->subjects()->attach($validated['subject_ids']);
+    
+        return redirect()->back()->with('success', 'Cycle ajouté avec succès avec les matières.');
     }
+    
+
 
     public function edit($id)
     {
         // Trouver le cycle
-        $cycle = Cycle::findOrFail($id);
+        $cycle = Cycle::with('subjects')->findOrFail($id);
+        $subjects = Subject::all(); // Récupère toutes les matières
         $title = 'Modifier Cycle';
-        return view('frontend.edit-cycle', compact('title', 'cycle'));
+        return view('frontend.edit-cycle', compact('title','subjects','cycle'));
     }
 
     public function update(Request $request, $id)
     {
-        // Validation des données
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'subjects' => 'array',
+            'subjects.*' => 'exists:subjects,id',
         ]);
-
-        // Trouver le cycle
+    
         $cycle = Cycle::findOrFail($id);
-
-        // Mettre à jour le cycle
         $cycle->update([
             'name' => $validated['name'],
             'description' => $validated['description'] ?? null,
         ]);
+    
+        // Mise à jour des matières associées
+        $cycle->subjects()->sync($validated['subjects'] ?? []);
 
         return redirect()->route('frontend.cycle')->with('success', 'Cycle mis à jour avec succès.');
     }
@@ -72,11 +83,9 @@ class CyclesController extends Controller
 
     public function show($id)
     {
-        try {
-            $cycle = Cycle::findOrFail($id);
-            return response()->json(['status' => 'success', 'data' => $cycle], 200);
-        } catch (Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 404);
-        }
+        $cycle = Cycle::with('subjects')->findOrFail($id);
+        $title = 'Détails du Cycle';
+        return view('frontend.show-cycle', compact('cycle','title'));
     }
+
 }
