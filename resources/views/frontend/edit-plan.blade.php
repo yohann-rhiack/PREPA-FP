@@ -30,7 +30,7 @@
                         <div class="form-group">
                             <label for="price">Prix</label>
                             <input type="number" class="form-control" name="price" id="price" value="{{ $plan->price }}" required>
-                        </div>
+                        </div><br>
 
                         <div class="form-group">
                             <label for="courses">Cours reliés</label>
@@ -42,7 +42,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div><br>
 
                         <div class="row">
                             <!-- Update Button -->

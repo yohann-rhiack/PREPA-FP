@@ -38,7 +38,7 @@
             top: 0;
             left: 0;
             background-color: white;
-            padding: 6rem 2rem 1rem 1rem;
+            padding: 4rem 2rem 1rem 1rem;
             box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
             
@@ -75,9 +75,16 @@
         /* Topbar avec espacement à gauche */
         .navbar {
             background-color: #c9c4f9;
-            margin-bottom: 20px; /* Espacement en bas de la topbar */
+            height: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1050;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
         }
-    
         /* Contenu principal avec un padding à gauche pour séparer de la sidebar */
         .content {
             margin-left: 240px;  /* Espacement de 240px à gauche pour ne pas être collé à la sidebar */
@@ -110,7 +117,13 @@
         .content .row .col-md-3 {
             margin-bottom: 2px;
         }
-    
+
+        .content {
+            margin-left: 240px;
+            margin-top: 60px;
+            padding: 2rem;
+        }
+            
         /* Styles pour la sidebar rétractable en mode téléphone */
         @media (max-width: 992px) {
             .sidebar {

@@ -13,9 +13,9 @@
         <div class="col-12">
             <div class="card shadow rounded">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Liste des écoles</h5>
-                    <button type="button" class="btn btn-primary btn-sm btn-color" id="openAddSchoolModal">
-                        <i class="fas fa-plus"></i> Ajouter une école
+                    <h5 class="mb-0">Liste des actualité</h5>
+                    <button type="button" class="btn btn-primary btn-sm btn-color" id="openAddActualityModal">
+                        <i class="fas fa-plus"></i> Ajouter une actualité
                     </button>
                 </div>
 
@@ -40,30 +40,30 @@
                         <table class="table table-bordered table-hover text-center w-100">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Nom de l'école</th>
-                                    <th>Description</th>
+                                    <th>Titre de l'actualité</th>
+                                    <th>Contenu</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($schools as $school)
+                                @foreach ($actualities as $actuality)
                                     <tr>
-                                        <td>{{ $school->name }}</td>
-                                        <td>{{ $school->description }}</td>
+                                        <td>{{ $actuality->title }}</td>
+                                        <td>{{ $actuality->content }}</td>
                                         <td>
-                                            <a href="{{ route('school.edit', $school->id) }}" class="mx-1 text-primary">
+                                            <a href="{{ route('actuality.edit', $actuality->id) }}" class="mx-1 text-primary">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <a href="#" class="mx-1 text-success" data-bs-toggle="modal"
-                                               data-bs-target="#schoolDetailsModal" data-school-id="{{ $school->id }}">
+                                               data-bs-target="#actualityDetailsModal" data-actuality-id="{{ $actuality->id }}">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                             <a href="#" class="mx-1 text-danger"
-                                               onclick="event.preventDefault(); if(confirm('Voulez-vous vraiment supprimer cette école ?')) { document.getElementById('delete-form-{{ $school->id }}').submit(); }">
+                                               onclick="event.preventDefault(); if(confirm('Voulez-vous vraiment supprimer cette actualité ?')) { document.getElementById('delete-form-{{ $actuality->id }}').submit(); }">
                                                 <i class="fas fa-trash"></i>
                                             </a>
-                                            <form id="delete-form-{{ $school->id }}" method="POST"
-                                                  action="{{ route('school.destroy', $school->id) }}" style="display: none;">
+                                            <form id="delete-form-{{ $actuality->id }}" method="POST"
+                                                  action="{{ route('actuality.destroy', $actuality->id) }}" style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
@@ -81,25 +81,25 @@
 </div>
 
 
-<!-- Modal pour ajouter une école -->
-<div class="modal fade" id="addSchoolModal" tabindex="-1" aria-labelledby="addSchoolModalLabel" aria-hidden="true">
+<!-- Modal pour ajouter une actualité -->
+<div class="modal fade" id="addActualityModal" tabindex="-1" aria-labelledby="addActualityModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content shadow-lg rounded-4">
             <div class="modal-header border-0">
-                <h5 class="modal-title fw-bold" id="addSchoolModalLabel">Ajouter une école</h5>
+                <h5 class="modal-title fw-bold" id="addActualityModalLabel">Ajouter une Actualité</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('school.store') }}" method="POST">
+                <form action="{{ route('actuality.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="name" class="form-label fw-semibold">Nom de l'école</label>
-                        <input type="text" id="name" name="name" class="form-control rounded-pill shadow-sm" placeholder="Ex : Lycée Moderne de Cocody" required>
+                        <label for="title" class="form-label fw-semibold">Titre de l'actualité</label>
+                        <input type="text" id="title" name="title" class="form-control rounded-pill shadow-sm" placeholder="Ex : Nouveau concours" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="description" class="form-label fw-semibold">Description</label>
-                        <textarea id="description" name="description" class="form-control rounded-3 shadow-sm" rows="3" placeholder="Brève description de l’école..."></textarea>
+                        <label for="content" class="form-label fw-semibold">Contenu</label>
+                        <textarea id="content" name="content" class="form-control rounded-3 shadow-sm" rows="3" placeholder="Contenu de actualité"></textarea>
                     </div>
 
                     <div class="text-center mt-4">
@@ -114,16 +114,16 @@
 </div>
 
 
-<!-- Modal pour afficher les détails de l'école --> 
-<div class="modal fade" id="schoolDetailsModal" tabindex="-1" role="dialog" aria-labelledby="schoolDetailsModalLabel" aria-hidden="true">
+<!-- Modal pour afficher les détails de l'actualité --> 
+<div class="modal fade" id="actualityDetailsModal" tabindex="-1" role="dialog" aria-labelledby="actualityDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="schoolDetailsModalLabel">Détails de l'école</h5>
+                <h5 class="modal-title" id="actualityDetailsModalLabel">Détails de l'actualité</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="schoolDetailsContent">
-                <!-- Les informations de l'école seront insérées ici via AJAX -->
+            <div class="modal-body" id="actualityDetailsContent">
+                <!-- Les informations de l'actualité seront insérées ici via AJAX -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
@@ -210,27 +210,27 @@
         $('a[data-bs-toggle="modal"]').click(function (event) {
             event.preventDefault();
 
-            var schoolId = $(this).data('school-id'); // ID de l'école depuis le bouton
-            var modal = $('#schoolDetailsModal');
+            var actualityId = $(this).data('actuality-id'); // ID de l'actualité depuis le bouton
+            var modal = $('#actualityDetailsModal');
 
             $.ajax({
-                url: '/frontend/schools/' + schoolId + '/details',  // URL de la route pour récupérer les détails de l'école
+                url: '/frontend/actualitys/' + actualityId + '/details',  // URL de la route pour récupérer les détails de l'actualité
                 method: 'GET',
                 success: function (data) {
                     console.log("Données reçues:", data); // Vérifie les données reçues dans la console
 
-                    var content = '<p><strong>Nom de l\'école:</strong> ' + data.name + '</p>';
-                    content += '<p><strong>Description:</strong> ' + (data.description || 'N/A') + '</p>';
+                    var content = '<p><strong>Titre de l\'actualité:</strong> ' + data.title + '</p>';
+                    content += '<p><strong>Contenu:</strong> ' + (data.content || 'N/A') + '</p>';
 
                     // Insère le contenu dans le modal
-                    modal.find('#schoolDetailsContent').html(content);
+                    modal.find('#actualityDetailsContent').html(content);
 
                     // Ouvre le modal
                     modal.modal('show');
                 },
                 error: function (xhr) {
                     console.error("Erreur AJAX:", xhr.responseText);
-                    $('#schoolDetailsContent').html('<p>Une erreur s\'est produite lors du chargement des détails de l\'école.</p>');
+                    $('#actualityDetailsContent').html('<p>Une erreur s\'est produite lors du chargement des détails de l\'actualité.</p>');
                 }
             });
         });
@@ -246,9 +246,9 @@
         }
 
         // Initialisation manuelle du modal pour le bouton
-        const openAddSchoolModal = document.getElementById("openAddSchoolModal");
-        openAddSchoolModal.addEventListener("click", function () {
-            const modal = new bootstrap.Modal(document.getElementById("addSchoolModal"));
+        const openAddActualityModal = document.getElementById("openAddActualityModal");
+        openAddActualityModal.addEventListener("click", function () {
+            const modal = new bootstrap.Modal(document.getElementById("addActualityModal"));
             modal.show();
         });
     });

@@ -70,9 +70,19 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div><br>
 
-                        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                        <div class="row">
+                            <!-- Update Button -->
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success w-100">Mettre à Jour</button>
+                            </div>
+                
+                            <!-- Back to School List Button -->
+                            <div class="col-md-6">
+                                <a href="{{ route('frontend.tentative') }}" class="btn btn-secondary w-100">Retour à la Liste</a>
+                            </div>
+                        </div>
                     </form>
                     
                 </div>

@@ -70,7 +70,7 @@ class SchoolsController extends Controller
         return back()->with('success', 'Ecole supprimé avec succès.');
     }
 
-    public function showSchoolDetails($id)
+    public function showSchoolDetails($id) 
     {
         // Récupérer l'école
         $school = School::find($id);

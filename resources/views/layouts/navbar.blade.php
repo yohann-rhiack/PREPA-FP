@@ -147,8 +147,15 @@
       <i class="bi bi-list"></i>
     </button>
     <div class="navbar-nav ml-auto">
-      <a href="{{ route('frontend.test') }}" class="btn btn-primary">Créer un quiz</a> <!-- Lien ajouté -->
+      <a href="{{ route('frontend.test') }}" class="btn btn-primary" id="couleur-bouton">Créer un quiz</a> <!-- Lien ajouté -->
     </div>
   </div>
 </nav>
+
+<style>
+  #couleur-bouton {
+    background-color: #6c63ff; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    }
+</style>
 @endsection

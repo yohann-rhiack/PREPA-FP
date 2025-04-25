@@ -12,7 +12,7 @@
             <div class="card shadow rounded">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Liste des abonnements</h5>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addSubscriptionModal">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addSubscriptionModal" id="btn-color">
                         <i class="fas fa-plus"></i> Ajouter un abonnement
                     </button>
                 </div>
@@ -125,21 +125,20 @@
 </div>
 
 
-<!-- Modal pour afficher les détails de l'abonnement -->
+<!-- Modal pour afficher les détails de l'abonnement --> 
 <div class="modal fade" id="abonnementDetailsModal" tabindex="-1" role="dialog" aria-labelledby="abonnementDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="abonnementDetailsModalLabel">Détails de l'abonnement</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
             </div>
             <div class="modal-body" id="abonnementDetailsContent">
                 <!-- Les informations de l'école seront insérées ici via AJAX -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>
@@ -173,7 +172,7 @@
 <script>
     $(document).ready(function () {
         // Assure-toi que le bouton ouvre le modal
-        $('a[data-toggle="modal"]').click(function (event) {
+        $('a[data-bs-toggle="modal"]').click(function (event) {
             event.preventDefault();
 
             var abonnementId = $(this).data('abonnement-id'); // Récupère l'ID de l'abonnement
@@ -204,6 +203,11 @@
     });
 </script>
 
+<style>
+    #btn-color{
+            background: #6c63ff !important;
+        }
+</style>
 @endsection
 
 @extends('layouts.footer')

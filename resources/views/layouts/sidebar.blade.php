@@ -192,6 +192,9 @@
       <a class="nav-link {{ request()->routeIs('frontend.plan') ? 'active' : '' }}" href="{{ route('frontend.plan') }}"><i class="bi bi-box-seam"></i> Plans</a>
     </li>
     <li class="nav-item">
+      <a class="nav-link {{ request()->routeIs('frontend.actualite') ? 'active' : '' }}" href="{{ route('frontend.actualite') }}"><i class="bi bi-box-seam"></i> Actualité</a>
+    </li>
+    <li class="nav-item">
       <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
         <i class="bi bi-box-arrow-right"></i> 
               Déconnexion

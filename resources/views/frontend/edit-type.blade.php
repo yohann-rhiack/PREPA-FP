@@ -20,7 +20,7 @@
                         <div class="form-group">
                             <label for="title">Nom du type</label>
                             <input type="text" class="form-control" name="title" value="{{ old('title', $type->title) }}" required>
-                        </div>
+                        </div><br>
 
                         <div class="row">
                             <!-- Update Button -->

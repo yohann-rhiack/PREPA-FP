@@ -52,9 +52,18 @@
                         </div>
                     
                         <button type="button" class="btn btn-secondary btn-sm" id="add-chapter-btn">Ajouter un chapitre</button>
-                    
-                        <div class="text-center mt-3">
-                            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                        
+                        <br><br><br>
+                        <div class="row">
+                            <!-- Update Button -->
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success w-100">Mettre à Jour</button>
+                            </div>
+                
+                            <!-- Back to School List Button -->
+                            <div class="col-md-6">
+                                <a href="{{ route('frontend.cours') }}" class="btn btn-secondary w-100">Retour à la Liste</a>
+                            </div>
                         </div>
                     </form>
                 </div>

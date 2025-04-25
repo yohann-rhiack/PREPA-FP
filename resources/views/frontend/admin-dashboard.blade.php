@@ -54,7 +54,7 @@
           <div class="card-header fw-bold">Tes quiz</div>
           <div class="card-body text-center d-flex flex-column justify-content-center">
             <p>Gérez vos quiz et créez-en de nouveaux pour vos utilisateurs.</p>
-            <a href="{{ route('frontend.test') }}" class="btn btn-primary">Créer un quiz</a> <!-- Lien vers la page des quiz -->
+            <a href="{{ route('frontend.test') }}" class="btn btn-primary" id="couleur-bouton">Créer un quiz</a> <!-- Lien vers la page des quiz -->
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@
           <div class="card-header fw-bold">Matière</div>
           <div class="card-body text-center d-flex flex-column justify-content-center">
             <p>Ajoutez ou modifiez les matières disponibles pour vos cours.</p>
-            <a href="{{ route('frontend.subject') }}" class="btn btn-primary">Gérer les matières</a> <!-- Lien vers la page des matières -->
+            <a href="{{ route('frontend.subject') }}" class="btn btn-primary" id="couleur-bouton">Gérer les matières</a> <!-- Lien vers la page des matières -->
           </div>
         </div>
       </div>
@@ -76,11 +76,19 @@
           <div class="card-header fw-bold">Cours</div>
           <div class="card-body text-center d-flex flex-column justify-content-center">
             <p>Ajoutez de nouveaux cours ou gérez les cours existants pour vos utilisateurs.</p>
-            <a href="{{ route('frontend.cours') }}" class="btn btn-primary">Ajouter un cours</a> <!-- Lien vers la page des cours -->
+            <a href="{{ route('frontend.cours') }}" class="btn btn-primary" id="couleur-bouton">Ajouter un cours</a> <!-- Lien vers la page des cours -->
           </div>
         </div>
       </div>
     </div>
+
+    <style>
+      #couleur-bouton {
+        background-color: #6c63ff; /* Couleur de fond */
+        color: white; /* Couleur du texte */
+
+      }
+    </style>
 @endsection
 
 @extends('layouts.footer')

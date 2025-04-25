@@ -76,7 +76,7 @@ class SubscriptionsController extends Controller
     }
     
 
-    public function showAbonnementDetails($id)
+    public function showAbonnementDetails($id) 
     {
         // Récupérer l'abonnement
         $abonnements = Subscription::find($id);

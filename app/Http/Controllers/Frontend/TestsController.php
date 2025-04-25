@@ -7,6 +7,7 @@ use App\Models\Test;
 use App\Models\Type; // Assurez-vous que ce modèle existe
 use App\Models\Quiz; // Importation du modèle Quiz
 use App\Models\Answer; // Importation du modèle Answer
+use App\Models\Course; // Importation du modèle Course
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; // Importation pour les transactions
 
@@ -17,7 +18,8 @@ class TestsController extends Controller
         $title = 'Gestionnaire des Tests';
         $tests = Test::with('type')->get(); // Correction de la relation
         $types = Type::all();
-        return view('frontend.test', compact('title', 'tests','types'));
+        $courses = Course::all();
+        return view('frontend.test', compact('title', 'tests','types', 'courses'));
     }
     
 
@@ -28,6 +30,7 @@ class TestsController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255|unique:tests,title',
             'type_id' => 'required|exists:types,id',
+            'course_id' => 'nullable|exists:courses,id',
             'time' => 'required|integer|min:1',
             'questions' => 'required|array',
             'questions.*.question' => 'required|string',
@@ -44,6 +47,7 @@ class TestsController extends Controller
             $tests = Test::create([
                 'title' => $validated['title'],
                 'type_id' => $validated['type_id'],
+                'course_id' => $validated['course_id'] ?? null, // Ajout de l'ID du cours
                 'time' => $validated['time'],
             ]);
 
@@ -76,8 +80,9 @@ class TestsController extends Controller
         $test = Test::with('quizzes.answers')->findOrFail($id);
         $title = 'Modifier Test';
         $types = Type::all();
+        $courses = Course::all();
 
-        return view('frontend.edit-test', compact('title', 'test', 'types'));
+        return view('frontend.edit-test', compact('title', 'test', 'types', 'courses'));
     }
 
 
@@ -87,6 +92,7 @@ class TestsController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255|unique:tests,title,' . $id,
             'type_id' => 'required|exists:types,id',
+            'course_id' => 'nullable|exists:courses,id',
             'time' => 'required|integer|min:1',
             'questions' => 'required|array',
             'questions.*.id' => 'nullable|exists:quizzes,id', // ID facultatif pour les questions existantes
@@ -106,6 +112,7 @@ class TestsController extends Controller
             $test->update([
                 'title' => $validated['title'],
                 'type_id' => $validated['type_id'],
+                'course_id' => $validated['course_id'] ?? null, // Ajout de l'ID du cours
                 'time' => $validated['time'],
             ]);
 
@@ -162,7 +169,8 @@ class TestsController extends Controller
     {
         $title = 'Détail du Test';
         $test = Test::with(['type', 'quizzes.answers'])->findOrFail($id);
-        return view('frontend.show-test', compact('test', 'title'));
+        $courses = Course::all(); // Récupère toutes les écoles
+        return view('frontend.show-test', compact('test', 'title', 'courses'));
     }
 
 }

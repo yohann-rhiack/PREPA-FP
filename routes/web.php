@@ -19,6 +19,7 @@ use App\Http\Controllers\Frontend\RolesController;
 use App\Http\Controllers\Frontend\TestsController;
 use App\Http\Controllers\Frontend\TypesController;
 use App\Http\Controllers\Frontend\UsersController;
+use App\Http\Controllers\Frontend\ActualitiesController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -154,6 +155,15 @@ Route::get('/role/{id}/edit', [RolesController::class, 'edit'])->name('role.edit
 Route::put('/role/{id}', [RolesController::class, 'update'])->name('role.update');
 Route::delete('/role/{id}', [RolesController::class, 'destroy'])->name('role.destroy');
 Route::get('/role/{id}', [RolesController::class, 'show'])->name('role.show');
+
+// Routes pour les éactualités 
+Route::get('/Admin/actuality', [ActualitiesController::class, 'index'])->name('frontend.actualite');
+Route::post('/actualitys/store', [ActualitiesController::class, 'store'])->name('actuality.store');
+Route::get('/actualitys/{id}/edit', [ActualitiesController::class, 'edit'])->name('actuality.edit');
+Route::put('/actualitys/{id}', [ActualitiesController::class, 'update'])->name('actuality.update');
+Route::delete('/actualitys/{id}', [ActualitiesController::class, 'destroy'])->name('actuality.destroy');
+Route::get('/frontend/actualitys/{id}/details', [ActualitiesController::class, 'showActualityDetails'])->name('actuality.details');
+
 
 // Routes pour les utilisateurs
 Route::get('/Admin/utilisateur', [UsersController::class, 'index'])->name('frontend.utilisateur');

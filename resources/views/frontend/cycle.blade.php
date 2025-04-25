@@ -12,7 +12,7 @@
             <div class="card shadow rounded">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Liste des cycles</h5>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCycleModal">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCycleModal" id="btn-color">
                         <i class="fas fa-plus"></i> Ajouter un cycle
                     </button>
                 </div>
@@ -101,6 +101,15 @@
                         <textarea name="description" id="description" class="form-control rounded-3 shadow-sm" rows="3" placeholder="Entrez une description (facultatif)"></textarea>
                     </div>
 
+                    <div class="col-md-6 mb-3">
+                        <label for="school_id" class="form-label fw-semibold">Ecole :</label>
+                        <select id="school_id" name="school_id" class="form-select rounded-pill shadow-sm" required>
+                            @foreach($schools as $school)
+                                <option value="{{ $school->id }}">{{ $school->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="mb-4">
                         <label for="subjects" class="form-label fw-semibold">Matières associées</label>
                         <select name="subject_ids[]" id="subjects" class="form-select shadow-sm select2" multiple="multiple">
@@ -137,6 +146,11 @@
     });
 </script>
 
+<style>
+    #btn-color{
+        background: #6c63ff !important;
+       }
+</style>
 
 @endsection
 

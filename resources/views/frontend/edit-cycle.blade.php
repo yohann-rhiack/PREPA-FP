@@ -25,6 +25,17 @@
                         <div class="form-group">
                             <label for="description">Description</label>
                             <textarea name="description" id="description" class="form-control">{{ $cycle->description }}</textarea>
+                        </div><br>
+
+                        <div class="form-group">
+                            <label for="school_id">Ecole :</label>
+                            <select id="school_id" name="school_id" class="form-control" required>
+                                @foreach($schools ?? [] as $school)
+                                    <option value="{{ $school->id }}" {{ $cycle->school_id == $school->id ? 'selected' : '' }}>
+                                        {{ $school->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     
                         <div class="form-group">
@@ -37,9 +48,19 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div><br>
                     
-                        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                        <div class="row">
+                            <!-- Update Button -->
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success w-100">Mettre à Jour</button>
+                            </div>
+                
+                            <!-- Back to School List Button -->
+                            <div class="col-md-6">
+                                <a href="{{ route('frontend.cycle') }}" class="btn btn-secondary w-100">Retour à la Liste</a>
+                            </div>
+                        </div>
                     </form>
                     
                 </div>

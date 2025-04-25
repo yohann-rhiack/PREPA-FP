@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <label for="description">Description</label>
                             <textarea name="description" id="description" class="form-control" rows="4">{{ $subject->description }}</textarea>
-                        </div>
+                        </div><br>
 
                         <div class="form-group">
                             <label for="courses">Cours relié</label>
@@ -37,7 +37,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div><br>
 
                         <div class="row">
                             <!-- Update Button -->

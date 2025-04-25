@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Cycle;
 use App\Models\Subject;
+use App\Models\School;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -15,7 +16,8 @@ class CyclesController extends Controller
         $title = 'Gestionnaire des Cycles';
         $cycles = Cycle::all();
         $subjects = Subject::all(); 
-        return view('frontend.cycle', compact('title', 'cycles', 'subjects'));
+        $schools = School::all(); // Récupère toutes les écoles
+        return view('frontend.cycle', compact('title', 'cycles', 'subjects','schools'));
     }
 
     public function store(Request $request)
@@ -24,6 +26,7 @@ class CyclesController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'school_id' => 'required|exists:schools,id',
             'subject_ids' => 'required|array', // Assurez-vous que c'est un tableau
             'subject_ids.*' => 'exists:subjects,id', // Vérifier que chaque ID existe
         ]);
@@ -47,8 +50,9 @@ class CyclesController extends Controller
         // Trouver le cycle
         $cycle = Cycle::with('subjects')->findOrFail($id);
         $subjects = Subject::all(); // Récupère toutes les matières
+        $schools = School::all(); // Récupère toutes les écoles
         $title = 'Modifier Cycle';
-        return view('frontend.edit-cycle', compact('title','subjects','cycle'));
+        return view('frontend.edit-cycle', compact('title','subjects','cycle','schools'));
     }
 
     public function update(Request $request, $id)
@@ -56,6 +60,7 @@ class CyclesController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'school_id' => 'required|exists:schools,id',
             'subjects' => 'array',
             'subjects.*' => 'exists:subjects,id',
         ]);
@@ -64,6 +69,7 @@ class CyclesController extends Controller
         $cycle->update([
             'name' => $validated['name'],
             'description' => $validated['description'] ?? null,
+            'school_id' => $validated['school_id'],
         ]);
     
         // Mise à jour des matières associées
@@ -84,8 +90,9 @@ class CyclesController extends Controller
     public function show($id)
     {
         $cycle = Cycle::with('subjects')->findOrFail($id);
+        $schools = School::all(); // Récupère toutes les écoles
         $title = 'Détails du Cycle';
-        return view('frontend.show-cycle', compact('cycle','title'));
+        return view('frontend.show-cycle', compact('cycle','title','schools'));
     }
 
 }

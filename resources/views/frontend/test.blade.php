@@ -13,7 +13,7 @@
             <div class="card shadow rounded">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Liste des tests</h5>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTestModal">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTestModal" id="btn-color">
                         <i class="fas fa-plus"></i> Ajouter un test
                     </button>
                 </div>
@@ -81,19 +81,31 @@
                         <input type="text" id="title" name="title" class="form-control rounded-pill shadow-sm" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="type_id" class="form-label fw-semibold">Type de test :</label>
-                        <select id="type_id" name="type_id" class="form-select rounded-pill shadow-sm" required>
-                            @foreach($types as $type)
-                                <option value="{{ $type->id }}">{{ $type->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="type_id" class="form-label fw-semibold">Type de test :</label>
+                            <select id="type_id" name="type_id" class="form-select rounded-pill shadow-sm" required>
+                                @foreach($types as $type)
+                                    <option value="{{ $type->id }}">{{ $type->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    
+                        <div class="col-md-6 mb-3">
+                            <label for="time" class="form-label fw-semibold">Durée (en minutes) :</label>
+                            <input type="number" id="time" name="time" class="form-control rounded-pill shadow-sm" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="time" class="form-label fw-semibold">Durée (en minutes) :</label>
-                        <input type="number" id="time" name="time" class="form-control rounded-pill shadow-sm" required>
-                    </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="course_id" class="form-label fw-semibold">Cours :</label>
+                            <select id="course_id" name="course_id" class="form-select rounded-pill shadow-sm">
+                                <option value="">-- Aucun --</option> <!-- Option vide facultative -->
+                                @foreach($courses as $course)
+                                    <option value="{{ $course->id }}">{{ $course->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>                    
 
                     <div class="mb-4">
                         <label class="form-label fw-bold">Questions :</label>
@@ -263,6 +275,12 @@
     });
     </script>
     
+    <style>
+        #btn-color{
+            background: #6c63ff !important;
+        }
+        
+    </style>
 @endsection
 
 @extends('layouts.footer')

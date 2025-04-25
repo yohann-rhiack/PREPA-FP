@@ -13,7 +13,7 @@
             <div class="card shadow rounded">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Liste des plans</h5>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addPlanModal">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addPlanModal" id="btn-color">
                         <i class="fas fa-plus"></i> Ajouter un plan
                     </button>
                 </div>
@@ -161,6 +161,11 @@
     });
 </script>
 
+<style>
+    #btn-color{
+            background: #6c63ff !important;
+        }
+</style>
 
 @endsection
 
