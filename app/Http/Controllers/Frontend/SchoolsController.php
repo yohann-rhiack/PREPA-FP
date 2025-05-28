@@ -18,16 +18,26 @@ class SchoolsController extends Controller
 
     public function store(Request $request)
     {
-        // Validation des données (si nécessaire)
+        // Validation des données
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
+            'img_school' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Création de l'enregistrement dans la base de données
+        // Traitement de l'image si elle est envoyée
+        $imagePath = null;
+        if ($request->hasFile('img_school')) {
+            $imageName = time() . '.' . $request->img_school->extension();
+            $request->img_school->move(public_path('uploads/schools'), $imageName);
+            $imagePath = 'uploads/schools/' . $imageName;
+        }
+
+        // Création de l'école
         $school = School::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
+            'img_school' => $imagePath, // enregistrement du chemin de l'image
         ]);
 
         return redirect()->back()->with('success', 'École créée avec succès');
@@ -44,22 +54,38 @@ class SchoolsController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validation des données (si nécessaire)
+        // Validation
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
+            'img_school' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Trouver l'école par son ID
+        // Récupérer l'école à modifier
         $school = School::findOrFail($id);
 
-        // Mettre à jour l'école
+        // Traitement de l'image si elle est envoyée
+        $imagePath = $school->img_school; // Par défaut, on garde l'image existante
+        if ($request->hasFile('img_school')) {
+            // Supprimer l'ancienne image si elle existe
+            if ($school->img_school && file_exists(public_path($school->img_school))) {
+                unlink(public_path($school->img_school));
+            }
+
+            // Enregistrer la nouvelle image
+            $imageName = time() . '.' . $request->img_school->extension();
+            $request->img_school->move(public_path('uploads/schools'), $imageName);
+            $imagePath = 'uploads/schools/' . $imageName;
+        }
+
+        // Mise à jour des données
         $school->update([
             'name' => $validated['name'],
             'description' => $validated['description'],
+            'img_school' => $imagePath,
         ]);
 
-        return redirect()->route('frontend.ecole')->with('success', 'Ecole modifié avec succès.');
+        return redirect()->route('frontend.ecole')->with('success', 'École modifiée avec succès.');
     }
 
     public function destroy($id)
@@ -83,6 +109,7 @@ class SchoolsController extends Controller
         return response()->json([
             'name' => $school->name,
             'description' => $school->description ?? 'N/A',  // Si la description est vide, on renvoie 'N/A'
+            'img_school' => $school->img_school ? asset($school->img_school) : null, // Renvoie le chemin de l'image
         ]);
     }
 

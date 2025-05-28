@@ -35,6 +35,7 @@ class CyclesController extends Controller
         $cycle = Cycle::create([
             'name' => $validated['name'],
             'description' => $validated['description'] ?? null,
+            'school_id' => $validated['school_id'],
         ]);
     
         // Attacher les matières sélectionnées dans la table pivot

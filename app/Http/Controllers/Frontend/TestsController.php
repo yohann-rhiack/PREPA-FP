@@ -168,8 +168,8 @@ class TestsController extends Controller
     public function show($id)
     {
         $title = 'Détail du Test';
-        $test = Test::with(['type', 'quizzes.answers'])->findOrFail($id);
-        $courses = Course::all(); // Récupère toutes les écoles
+        $test = Test::with(['type', 'quizzes.answers', 'course'])->findOrFail($id);
+        $courses = Course::all(); // Optionnel, si tu ne l’utilises pas dans la vue, tu peux le supprimer
         return view('frontend.show-test', compact('test', 'title', 'courses'));
     }
 

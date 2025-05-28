@@ -14,7 +14,7 @@
                             <h3 class="card-title">Modifier Ecole</h3>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('school.update', $school->id) }}" method="POST">
+                            <form action="{{ route('school.update', $school->id) }}" method="POST" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <!-- Client Information -->
@@ -32,6 +32,29 @@
                                         </div>
                                     </div>
                                  </div><br>
+
+                                 <div class="row">
+                                    <!-- Champ pour téléverser une nouvelle image -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="img_school">Changer l’image de l'école</label>
+                                            <input type="file" name="img_school" id="img_school" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <!-- Afficher l’image actuelle -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Image actuelle :</label><br>
+                                            @if($school->img_school)
+                                                <img src="{{ asset($school->img_school) }}" alt="Image actuelle de l'école" style="max-width: 100px; height: auto; border-radius: 8px;">
+                                            @else
+                                                <p>Aucune image disponible</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div><br>
+
                                 <div class="row">
                                     <!-- Update Button -->
                                     <div class="col-md-6">

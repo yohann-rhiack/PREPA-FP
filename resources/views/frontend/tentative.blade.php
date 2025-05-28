@@ -14,9 +14,9 @@
             <div class="card shadow rounded">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Liste des tentatives</h5>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addAttemptModal" id="btn-color"> 
+                    {{-- <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addAttemptModal" id="btn-color"> 
                         <i class="fas fa-plus"></i> Ajouter une tentative
-                    </button>
+                    </button> --}}
                 </div>
 
                 <div class="card-body">
@@ -55,13 +55,13 @@
                                                 <a href="{{ route('tentative.show', $attempt->id) }}" class="text-success mx-1" title="Voir">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('tentative.edit', $attempt->id) }}" class="text-primary mx-1" title="Modifier">
+                                                {{-- <a href="{{ route('tentative.edit', $attempt->id) }}" class="text-primary mx-1" title="Modifier">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <a href="#" class="text-danger mx-1" title="Supprimer"
                                                    onclick="event.preventDefault(); if(confirm('Voulez-vous vraiment supprimer cette tentative ?')) { document.getElementById('delete-form-{{ $attempt->id }}').submit(); }">
                                                     <i class="fas fa-trash"></i>
-                                                </a>
+                                                </a> --}}
                                                 <form id="delete-form-{{ $attempt->id }}" method="POST" action="{{ route('tentative.destroy', $attempt->id) }}" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')

@@ -18,12 +18,12 @@
                         @method('PUT')
 
                         <div class="form-group">
-                            <label for="title">Titre du test :</label>
+                            <label for="title"><strong>Titre du test :</strong></label>
                             <input type="text" id="title" name="title" class="form-control" value="{{ $test->title }}" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="type_id">Type de test :</label>
+                            <label for="type_id"><strong>Type de test :</strong></label>
                             <select id="type_id" name="type_id" class="form-control" required>
                                 @foreach($types ?? [] as $type)
                                     <option value="{{ $type->id }}" {{ $test->type_id == $type->id ? 'selected' : '' }}>
@@ -34,12 +34,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="time">Durée (en minutes) :</label>
+                            <label for="time"><strong>Durée (en minutes) :</strong></label>
                             <input type="number" id="time" name="time" class="form-control" value="{{ $test->time }}" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="course_id">Cours :</label>
+                            <label for="course_id"><strong>Cours :</strong></label>
                             <select id="course_id" name="course_id" class="form-control">
                                 @if(!empty($courses) && count($courses) > 0)
                                     <option value="">-- Sélectionner un cours (facultatif) --</option>
@@ -56,14 +56,14 @@
                         
 
                         <div class="form-group">
-                            <label>Questions :</label>
+                            <label><strong>Questions :</strong></label>
                             <div id="questions-container">
                                 @foreach($test->quizzes as $index => $quiz)
                                     <div class="question-item mb-3" data-index="{{ $index }}">
                                         <input name="questions[{{ $index }}][question]" class="form-control mb-2" placeholder="Question" value="{{ $quiz->question }}" required>
                                         <input name="questions[{{ $index }}][tag]" class="form-control mb-2" placeholder="Tag (optionnel)" value="{{ $quiz->tag }}">
 
-                                        <label>Réponses :</label>
+                                        <label><strong>Réponses :</strong></label>
                                         <div class="answers-container">
                                             @foreach($quiz->answers as $answerIndex => $answer)
                                                 <div class="answer-item mb-2">

@@ -26,6 +26,19 @@
                             <label for="content">Description :</label>
                             <textarea id="content" name="content" class="form-control" rows="3" required>{{ $course->content }}</textarea>
                         </div>
+
+                        <!-- Champ enum pour les thèmes -->
+                        <div class="mb-4">
+                            <label for="theme" class="form-label fw-semibold">Thème</label>
+                            <select id="theme" name="theme" class="form-select rounded-pill shadow-sm" required>
+                                <option value="" disabled {{ old('theme', $course->theme ?? '') == '' ? 'selected' : '' }}>Choisissez un thème</option>
+                                <option value="SCIENCES" {{ old('theme', $course->theme ?? '') == 'SCIENCES' ? 'selected' : '' }}>Sciences</option>
+                                <option value="LETTRES" {{ old('theme', $course->theme ?? '') == 'LETTRES' ? 'selected' : '' }}>Lettres</option>
+                                <option value="ECONOMIE" {{ old('theme', $course->theme ?? '') == 'ECONOMIE' ? 'selected' : '' }}>Économie</option>
+                                <option value="TECHNOLOGIE" {{ old('theme', $course->theme ?? '') == 'TECHNOLOGIE' ? 'selected' : '' }}>Technologie</option>
+                                <option value="LANGUES" {{ old('theme', $course->theme ?? '') == 'LANGUES' ? 'selected' : '' }}>Langues</option>
+                            </select>
+                        </div>
                     
                         <hr style="width: 75%; border: 1.5px dashed solid #000;">
                         <h5 class="font-weight-bold mb-4">CHAPITRES ET RESUMES</h5>

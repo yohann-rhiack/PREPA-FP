@@ -100,6 +100,19 @@
                         <textarea id="content" name="content" class="form-control rounded-3 shadow-sm" rows="3" placeholder="Entrez une description du cours" required></textarea>
                     </div>
 
+                    <!-- Champ enum pour les thèmes -->
+                    <div class="mb-4">
+                        <label for="theme" class="form-label fw-semibold">Thème</label>
+                        <select id="theme" name="theme" class="form-select rounded-pill shadow-sm" required>
+                            <option value="" disabled selected>Choisissez un thème</option>
+                            <option value="SCIENCES">Sciences</option>
+                            <option value="LETTRES">Lettres</option>
+                            <option value="ECONOMIE">Économie</option>
+                            <option value="TECHNOLOGIE">Technologie</option>
+                            <option value="LANGUES">Langues</option>
+                        </select>
+                    </div>
+
                     <hr class="my-4" style="border: 1.5px dashed #ccc;">
                     <h5 class="fw-bold text-primary mb-3">CHAPITRES</h5>
 

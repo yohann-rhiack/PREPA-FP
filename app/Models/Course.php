@@ -11,7 +11,8 @@ class Course extends Model
 
     protected $fillable = [
         'title',
-        'content', 
+        'content',
+        'theme', 
     ];
 
     public function chapters()

@@ -90,7 +90,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('school.store') }}" method="POST">
+                <form action="{{ route('school.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label fw-semibold">Nom de l'école</label>
@@ -100,6 +100,11 @@
                     <div class="mb-3">
                         <label for="description" class="form-label fw-semibold">Description</label>
                         <textarea id="description" name="description" class="form-control rounded-3 shadow-sm" rows="3" placeholder="Brève description de l’école..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="img_school">Image de l'école</label>
+                        <input type="file" name="img_school" id="img_school" class="form-control">
                     </div>
 
                     <div class="text-center mt-4">
@@ -221,6 +226,7 @@
 
                     var content = '<p><strong>Nom de l\'école:</strong> ' + data.name + '</p>';
                     content += '<p><strong>Description:</strong> ' + (data.description || 'N/A') + '</p>';
+                    content += '<p><strong>Logo:</strong><br><img src="' + data.img_school + '" alt="Logo de l\'école" style="max-width: 40%; height: 40%;"/></p>';
 
                     // Insère le contenu dans le modal
                     modal.find('#schoolDetailsContent').html(content);

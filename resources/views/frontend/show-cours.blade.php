@@ -15,6 +15,8 @@
                 <div class="card-body">
                     <p><strong>Titre du cours :</strong> {{ $course->title }}</p>
                     <p><strong>Description du cours : </strong>{!! nl2br(e($course->content)) !!}</p>
+                    <p><strong>Thème :</strong> {{ $course->theme ?? 'N/A' }}</p>
+
 
                     <hr>
 

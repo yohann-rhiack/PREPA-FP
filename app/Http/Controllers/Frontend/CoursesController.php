@@ -25,6 +25,7 @@ class CoursesController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'theme' => 'required|string|max:255',
             'chapter_title.*' => 'required|string|max:255',
             'chapter_description.*' => 'required|string',
             'chapter_summary_description.*' => 'required|string',
@@ -35,6 +36,7 @@ class CoursesController extends Controller
             $course = Course::create([
                 'title' => $request->title,
                 'content' => $request->content,
+                'theme' => $request->theme,
             ]);
     
             // Ajout des chapitres avec leur résumé
@@ -70,6 +72,7 @@ class CoursesController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'theme' => 'required|string|max:255',
             'chapter_title.*' => 'required|string|max:255',
             'chapter_description.*' => 'required|string',
             'chapter_summary_description.*' => 'required|string',
@@ -83,6 +86,7 @@ class CoursesController extends Controller
             $course->update([
                 'title' => $request->title,
                 'content' => $request->content,
+                'theme' => $request->theme
             ]);
 
             // Mise à jour ou suppression des chapitres existants
