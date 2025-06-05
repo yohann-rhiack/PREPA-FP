@@ -89,6 +89,7 @@ Route::get('/resumes/{id}', [SummariesController::class, 'show'])->name('resume.
 /// Routes pour les tests
 Route::get('/Admin/test', [TestsController::class, 'index'])->name('frontend.test');
 Route::post('/tests/store', [TestsController::class, 'store'])->name('test.store');
+Route::get('/tests/create', [TestsController::class, 'create'])->name('test.create');
 Route::get('/tests/{id}/edit', [TestsController::class, 'edit'])->name('test.edit');
 Route::put('/tests/{id}', [TestsController::class, 'update'])->name('test.update');
 Route::delete('/tests/{id}', [TestsController::class, 'destroy'])->name('test.destroy');

@@ -13,9 +13,12 @@
             <div class="card shadow rounded">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Liste des tests</h5>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTestModal" id="btn-color">
+                    {{-- <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTestModal" id="btn-color">
                         <i class="fas fa-plus"></i> Ajouter un test
-                    </button>
+                    </button> --}}
+                    <a href="{{ route('test.create') }}" class="btn btn-primary btn-sm" id="btn-color">
+                        <i class="fas fa-plus"></i> Ajouter un test
+                    </a>
                 </div>
 
                 <div class="card-body">
@@ -273,7 +276,7 @@
             }
         });
     });
-    </script>
+</script>
     
     <style>
         #btn-color{

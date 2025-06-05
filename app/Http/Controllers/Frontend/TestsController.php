@@ -22,6 +22,14 @@ class TestsController extends Controller
         return view('frontend.test', compact('title', 'tests','types', 'courses'));
     }
     
+    public function create()
+    {
+        $title = 'Créer un Nouveau Test';
+        $types = Type::all(); // Récupère tous les types de tests
+        $courses = Course::all(); // Récupère tous les cours
+        return view('frontend.create-test', compact('title', 'types', 'courses'));
+    }
+
 
     public function store(Request $request)
     {
