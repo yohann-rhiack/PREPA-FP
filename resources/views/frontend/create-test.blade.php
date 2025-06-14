@@ -1,4 +1,4 @@
-@extends('layouts.main')
+{{-- @extends('layouts.main')
 @extends('layouts.head')
 @extends('layouts.header')
 @extends('layouts.sidebar')
@@ -184,4 +184,269 @@
 @extends('layouts.footer')
 @extends('layouts.script')
 
+{{-- 
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Créateur de Quiz</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
 
+      header {
+        background-color: #5f4cc6;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      header .actions button {
+        background-color: white;
+        color: #5f4cc6;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 6px;
+        margin-left: 10px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .container {
+        display: flex;
+        flex: 1;
+      }
+
+      .sidebar {
+        width: 250px;
+        background-color: #f4f4f4;
+        padding: 15px;
+        border-right: 1px solid #ccc;
+        overflow-y: auto;
+      }
+
+      .question-item {
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+      }
+
+      .question-item:hover {
+        background-color: #eaeaea;
+      }
+
+      .add-btn {
+        background-color: #5f4cc6;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        width: 100%;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .content {
+        flex: 1;
+        padding: 20px;
+        background-color: #6a5ae0;
+      }
+
+      .content input[type="text"],
+      .content textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+
+      .answers {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 60px;
+        row-gap: 15px;
+        margin-top: 20px;
+        padding: 0 10px;
+      }
+
+      .answers input {
+        background-color: white;
+        padding: 12px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      .upload-box {
+        background-color: #d6d1f5;
+        padding: 20px;
+        text-align: center;
+        border: 2px dashed #999;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .upload-box input {
+        display: none;
+      }
+
+      #questionTitle {
+        width: 98%;
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div><strong>Nom de quiz</strong></div>
+      <div class="actions">
+        <button onclick="quitter()">Quitter</button>
+        <button onclick="enregistrer()">Enregistrer</button>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="sidebar">
+        <div id="questionList">
+          <!-- Questions ajoutées ici -->
+        </div>
+        <button class="add-btn" onclick="addQuestion()">Ajouter une question</button>
+      </div>
+
+      <div class="content">
+        <input
+          type="text"
+          id="questionTitle"
+          placeholder="Écrire la question ici"
+        />
+
+        <div class="answers" id="answersContainer">
+          <input type="text" placeholder="Ajouter la réponse 1" />
+          <input type="text" placeholder="Ajouter la réponse 2" />
+          <input type="text" placeholder="Ajouter la réponse 3" />
+          <input type="text" placeholder="Ajouter la réponse 4" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let questions = [];
+      let currentIndex = null;
+
+      function addQuestion() {
+        saveCurrentQuestion();
+        const newQuestion = {
+          title: `Question ${questions.length + 1}`,
+          answers: ["", "", "", ""],
+        };
+        questions.push(newQuestion);
+        currentIndex = questions.length - 1;
+        loadQuestion(currentIndex);
+        renderQuestionList();
+      }
+
+      function loadQuestion(index) {
+        const q = questions[index];
+        document.getElementById("questionTitle").value = q.title;
+
+        const container = document.getElementById("answersContainer");
+        container.innerHTML = "";
+        q.answers.forEach((ans, i) => {
+          const input = document.createElement("input");
+          input.type = "text";
+          input.value = ans;
+          input.placeholder = `Ajouter la réponse ${i + 1}`;
+          input.oninput = () => {
+            q.answers[i] = input.value;
+          };
+          container.appendChild(input);
+        });
+      }
+
+      function saveCurrentQuestion() {
+        if (currentIndex !== null) {
+          questions[currentIndex].title = document.getElementById("questionTitle").value;
+          const inputs = document.querySelectorAll("#answersContainer input");
+          questions[currentIndex].answers = Array.from(inputs).map(input => input.value);
+        }
+      }
+
+      function renderQuestionList() {
+        const list = document.getElementById("questionList");
+        list.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+          div.className = "question-item";
+
+          div.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div onclick="selectQuestion(${i})" style="flex:1; cursor:pointer;">
+                <strong>Question ${i + 1}</strong>
+                <p style="margin:0;">${q.title}</p>
+              </div>
+              <button onclick="supprimerQuestion(${i})" style="background:red; color:white; border:none; border-radius:4px; padding:5px; cursor:pointer;">🗑️</button>
+            </div>
+          `;
+          list.appendChild(div);
+        });
+      }
+
+      function selectQuestion(i) {
+        saveCurrentQuestion();
+        currentIndex = i;
+        loadQuestion(i);
+        renderQuestionList();
+      }
+
+      function supprimerQuestion(index) {
+        if (confirm("Supprimer cette question ?")) {
+          questions.splice(index, 1);
+          if (currentIndex === index) {
+            currentIndex = null;
+            if (questions.length > 0) {
+              currentIndex = 0;
+              loadQuestion(0);
+            } else {
+              document.getElementById("questionTitle").value = "";
+              document.getElementById("answersContainer").innerHTML = "";
+            }
+          } else if (currentIndex > index) {
+            currentIndex -= 1;
+            loadQuestion(currentIndex);
+          }
+          renderQuestionList();
+        }
+      }
+
+      function enregistrer() {
+        saveCurrentQuestion();
+        console.log("Questions enregistrées :", questions);
+        alert("Quiz enregistré !");
+      }
+
+      function quitter() {
+        if (confirm("Voulez-vous vraiment quitter ? Les changements non enregistrés seront perdus.")) {
+          window.location.href = "/";
+        }
+      }
+    </script>
+  </body>
+</html> --}} 
+
+@extends('layouts.main_quizz')
